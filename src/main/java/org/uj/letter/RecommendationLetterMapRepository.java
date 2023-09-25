@@ -1,16 +1,18 @@
-package org.uj;
+package org.uj.letter;
+
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class RecommendationLetterMapRepository implements RecommendationLetterRepository {
     private final ConcurrentHashMap<String, RecommendationLetter> map = new ConcurrentHashMap<>();
     @Override
     public void save(RecommendationLetter recommendationLetter) {
         map.put(recommendationLetter.getId(), recommendationLetter);
-
     }
 
     @Override
@@ -22,7 +24,7 @@ public class RecommendationLetterMapRepository implements RecommendationLetterRe
 
     @Override
     public Optional<RecommendationLetter> get(String id) {
-        return Optional.of(map.get(id));
+        return Optional.ofNullable(map.get(id));
     }
 
     @Override

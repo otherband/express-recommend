@@ -1,4 +1,4 @@
-package org.uj;
+package org.uj.letter;
 
 import lombok.Data;
 
