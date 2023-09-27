@@ -1,6 +1,7 @@
 package org.uj.letter;
 
 import org.springframework.stereotype.Repository;
+import org.uj.exceptions.UserInputException;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class RecommendationLetterMapRepository implements RecommendationLetterRe
     @Override
     public void update(RecommendationLetter recommendationLetter) {
         RecommendationLetter old = map.get(recommendationLetter.getId());
-        if (Objects.isNull(old)) throw new IllegalArgumentException("Cannot update letter that does not exist");
+        if (Objects.isNull(old)) throw new UserInputException("Cannot update letter that does not exist");
         map.put(recommendationLetter.getId(), recommendationLetter);
     }
 

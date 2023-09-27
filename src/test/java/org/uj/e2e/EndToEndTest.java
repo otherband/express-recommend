@@ -1,4 +1,4 @@
-package org.uj.letter;
+package org.uj.e2e;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.uj.letter.RecommendationLetter;
+import org.uj.letter.RecommendationLetterRepository;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -21,7 +23,7 @@ import static org.uj.letter.RecommendationLetterController.RecommendationLetterR
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecommendationLetterControllerTest {
+public class EndToEndTest {
 
     private static final Gson GSON = new Gson();
     @Autowired

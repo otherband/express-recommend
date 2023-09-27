@@ -3,6 +3,7 @@ package org.uj.letter;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.uj.exceptions.UserInputException;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class RecommendationLetterController {
     @GetMapping("/{requestId}")
     RecommendationLetter get(@PathVariable String requestId) {
         return letterRepository.get(requestId).orElseThrow(() ->
-                new IllegalArgumentException(String.format("Recommendation letter with ID [%s] does not exist",
+                new UserInputException(String.format("Recommendation letter with ID [%s] does not exist",
                         requestId)));
     }
 
@@ -38,7 +39,7 @@ public class RecommendationLetterController {
     }
 
     @Data
-    static class RecommendationLetterRequest {
+    public static class RecommendationLetterRequest {
         private String author;
         private String body;
     }
