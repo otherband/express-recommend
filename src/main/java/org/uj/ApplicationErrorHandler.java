@@ -6,15 +6,21 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.uj.exceptions.UserInputException;
 
+import java.awt.*;
+
+import static org.springframework.http.ResponseEntity.*;
+import static org.springframework.http.ResponseEntity.internalServerError;
+
 @ControllerAdvice
 public class ApplicationErrorHandler {
     @ExceptionHandler(UserInputException.class)
-    ResponseEntity<?> handleIllegalArgumentException(UserInputException exception) {
-        return badRequest(exception);
+    ResponseEntity<?> handleUserError(UserInputException exception) {
+        return badRequest().body(exception.getMessage());
     }
 
-    private static ResponseEntity<String> badRequest(UserInputException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(Exception.class)
+    ResponseEntity<?> handleInternalError(Exception exception) {
+        return internalServerError().body("Something went wrong");
     }
 
 }
