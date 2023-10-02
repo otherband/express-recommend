@@ -17,8 +17,13 @@ public class SecretTokenServiceTest {
     public static final String LETTER_ID = "LETTER_ID";
     private final Pbkdf2PasswordEncoder passwordEncoder = defaultsForSpringSecurity_v5_8();
     private final FakeEmailService emailService = new FakeEmailService();
-    private SecretTokenService tokenService = new SecretTokenService(passwordEncoder,
-            emailService);
+    private final SecretTokenService tokenService = new SecretTokenService(passwordEncoder,
+            emailService) {
+        @Override
+        protected void sendEmail(String receiverEmail, String secret) {
+            emailService.receivedSecret = secret;
+        }
+    };
 
     @Test
     void create() {
@@ -52,7 +57,6 @@ public class SecretTokenServiceTest {
 
         @Override
         public void sendEmail(String receivedAddress, String title, String body) {
-            this.receivedSecret = body;
         }
     }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,9 +22,11 @@ import static org.uj.letter.RecommendationLetterController.RecommendationLetterR
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("dev")
 public class RecommendationLetterControllerTest {
 
     private static final Gson GSON = new Gson();
+    public static final String VALID_ID = "VALID_ID";
     @Autowired
     MockMvc mockMvc;
     @Autowired
@@ -36,11 +39,10 @@ public class RecommendationLetterControllerTest {
 
     @Test
     void getOne() throws Exception {
-        RecommendationLetter recommendationLetter = new RecommendationLetter();
-        recommendationLetter.setId("VALID_ID");
+        RecommendationLetter recommendationLetter = create();
         letterRepository.save(recommendationLetter);
         mockMvc.perform(get(byId("INVALID_ID"))).andExpect(status().isBadRequest());
-        mockMvc.perform(get(byId("VALID_ID"))).andExpect(status().isOk());
+        mockMvc.perform(get(byId(VALID_ID))).andExpect(status().isOk());
     }
 
     @Test
@@ -57,6 +59,14 @@ public class RecommendationLetterControllerTest {
                 });
 
 
+    }
+
+    private static RecommendationLetter create() {
+        RecommendationLetter recommendationLetter = new RecommendationLetter();
+        recommendationLetter.setId(VALID_ID);
+        recommendationLetter.setBody("BODY");
+        recommendationLetter.setAuthor("AUTHOR");
+        return recommendationLetter;
     }
 
     private static RecommendationLetter parse(MvcResult result) throws UnsupportedEncodingException {

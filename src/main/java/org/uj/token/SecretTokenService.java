@@ -37,6 +37,7 @@ public class SecretTokenService {
     }
 
     protected void sendEmail(String receiverEmail, String secret) {
+        // provides a hook for testing
         emailService.sendEmail(receiverEmail,
                 "Verification link for recommendation letter",
                 secret);
