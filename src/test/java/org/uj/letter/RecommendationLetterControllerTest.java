@@ -22,7 +22,7 @@ import static org.uj.letter.RecommendationLetterController.RecommendationLetterR
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("dev")
+@ActiveProfiles("h2")
 public class RecommendationLetterControllerTest {
 
     private static final Gson GSON = new Gson();

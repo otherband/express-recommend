@@ -6,10 +6,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
   application:
     image: express-recommend
     network_mode: host
     depends_on:
       - database
     environment:
-      SPRING_PROFILES_ACTIVE: production
+      SPRING_PROFILES_ACTIVE: postgres, dev
