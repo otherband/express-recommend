@@ -1,0 +1,15 @@
+services:
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  application:
+    image: express-recommend
+    network_mode: host
+    depends_on:
+      - database
+    environment:
+      SPRING_PROFILES_ACTIVE: production
