@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.uj.BaseJpaTest;
+import org.uj.exceptions.UserInputException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,6 +18,12 @@ public class RecommendationLetterServiceTest extends BaseJpaTest {
     @BeforeEach
     void setup() {
         service = new RecommendationLetterService(new RecommendationLetterRepositoryImpl(recommendationLetterJpaRepository));
+    }
+
+    @Test
+    void createInvalid() {
+        assertThrows(UserInputException.class, () -> service.create("", BODY));
+        assertThrows(UserInputException.class, () -> service.create(AUTHOR, ""));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package org.uj.token;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.uj.email.EmailService;
@@ -10,6 +12,8 @@ import org.uj.letter.RecommendationLetterRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static org.uj.Utils.validateNotBlank;
 
 @Service
 public class SecretTokenService {
@@ -27,12 +31,41 @@ public class SecretTokenService {
     }
 
     public void verify(String tokenId, String letterId, String rawSecret) {
+        validate(tokenId, letterId, rawSecret);
         getByLetterId(letterId)
                 .stream()
                 .filter(secretToken -> secretToken.getTokenId().equals(tokenId))
                 .findAny()
                 .filter(requestedToken -> passwordEncoder.matches(rawSecret, requestedToken.getHashedSecret()))
                 .orElseThrow(() -> formattedException("No matching secrets found for letter with ID [%s]", letterId));
+    }
+
+    public SecretToken create(String receiverEmail, String letterId) {
+        validate(receiverEmail, letterId);
+        letterRepository.get(letterId).orElseThrow(() -> letterDoesNotExist(letterId));
+        SecretToken secretToken = new SecretToken();
+        secretToken.setCreationDate(LocalDateTime.now());
+        secretToken.setLetterId(letterId);
+        secretToken.setTokenId(randomString());
+        secretToken.setAssociatedEmail(receiverEmail);
+        handleSecret(receiverEmail, secretToken);
+        tokenRepository.save(secretToken);
+        return secretToken;
+    }
+
+    private static void validate(String receiverEmail, String letterId) {
+        validateNotBlank(receiverEmail, "Email");
+        validateNotBlank(letterId, "Letter ID");
+    }
+
+    protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
+        // provides a hook for testing
+        VerificationLinkEmailRequest verificationLinkEmailRequest = new VerificationLinkEmailRequest();
+        verificationLinkEmailRequest.setReceiverEmail(receiverEmail);
+        verificationLinkEmailRequest.setSecretToken(secret);
+        verificationLinkEmailRequest.setTokenId(tokenId);
+        verificationLinkEmailRequest.setLetterId(letterId);
+        emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
     }
 
     private List<SecretToken> getByLetterId(String letterId) {
@@ -46,16 +79,10 @@ public class SecretTokenService {
         return new UserInputException(String.format(template, letterId));
     }
 
-    public SecretToken create(String receiverEmail, String letterId) {
-        letterRepository.get(letterId).orElseThrow(() -> letterDoesNotExist(letterId));
-        SecretToken secretToken = new SecretToken();
-        secretToken.setCreationDate(LocalDateTime.now());
-        secretToken.setLetterId(letterId);
-        secretToken.setTokenId(randomString());
-        secretToken.setAssociatedEmail(receiverEmail);
-        handleSecret(receiverEmail, secretToken);
-        tokenRepository.save(secretToken);
-        return secretToken;
+    private static void validate(String tokenId, String letterId, String rawSecret) {
+        validateNotBlank(tokenId, "Token ID");
+        validateNotBlank(letterId, "Letter ID");
+        validateNotBlank(rawSecret, "Secret");
     }
 
     private static UserInputException letterDoesNotExist(String letterId) {
@@ -70,15 +97,5 @@ public class SecretTokenService {
 
     private static String randomString() {
         return UUID.randomUUID().toString();
-    }
-
-    protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
-        // provides a hook for testing
-        VerificationLinkEmailRequest verificationLinkEmailRequest = new VerificationLinkEmailRequest();
-        verificationLinkEmailRequest.setReceiverEmail(receiverEmail);
-        verificationLinkEmailRequest.setSecretToken(secret);
-        verificationLinkEmailRequest.setTokenId(tokenId);
-        verificationLinkEmailRequest.setLetterId(letterId);
-        emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
     }
 }

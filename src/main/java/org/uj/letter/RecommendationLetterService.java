@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static org.uj.Utils.validateNotBlank;
+
 @Service
 public class RecommendationLetterService {
     private final RecommendationLetterRepository repository;
@@ -13,6 +15,10 @@ public class RecommendationLetterService {
     }
 
     public RecommendationLetter create(String author, String body) {
+
+        validateNotBlank(author, "Author");
+        validateNotBlank(body, "Body");
+
         RecommendationLetter recommendationLetter = new RecommendationLetter();
         recommendationLetter.setAuthor(author);
         recommendationLetter.setBody(body);
@@ -22,4 +28,5 @@ public class RecommendationLetterService {
         repository.save(recommendationLetter);
         return recommendationLetter;
     }
+
 }

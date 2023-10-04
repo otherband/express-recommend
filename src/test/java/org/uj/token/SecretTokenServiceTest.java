@@ -1,13 +1,17 @@
 package org.uj.token;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.uj.BaseJpaTest;
 import org.uj.email.EmailService;
 import org.uj.email.VerificationLinkEmailRequest;
+import org.uj.exceptions.UserInputException;
 import org.uj.letter.RecommendationLetter;
 import org.uj.letter.RecommendationLetterJpaRepository;
 import org.uj.letter.RecommendationLetterRepository;
@@ -15,6 +19,7 @@ import org.uj.letter.RecommendationLetterRepositoryImpl;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +45,13 @@ public class SecretTokenServiceTest extends BaseJpaTest {
                 new RecommendationLetterRepositoryImpl(letterJpaRepository)
         );
         letterJpaRepository.save(buildLetter());
+    }
+
+    @ParameterizedTest
+    @Disabled
+    @MethodSource("getInvalidEmails")
+    void createTokenWithInvalidEmail(String invalidEmail) {
+        assertThrows(UserInputException.class, () -> tokenService.create(invalidEmail, LETTER_ID));
     }
 
 
@@ -112,5 +124,8 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         }
     }
 
+    private static List<String> getInvalidEmails() {
+        return List.of("", "hello@", "hello");
+    }
 
 }
