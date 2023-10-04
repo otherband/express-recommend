@@ -2,16 +2,14 @@ package org.uj.token;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.uj.email.VerificationLinkEmailRequest;
 import org.uj.email.EmailService;
+import org.uj.email.VerificationLinkEmailRequest;
 import org.uj.exceptions.UserInputException;
 import org.uj.letter.RecommendationLetterRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-
-import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8;
 
 @Service
 public class SecretTokenService {
@@ -21,9 +19,9 @@ public class SecretTokenService {
     private final TokenRepository tokenRepository;
     private final RecommendationLetterRepository letterRepository;
 
-    public SecretTokenService(EmailService emailService, TokenRepository tokenRepository, RecommendationLetterRepository letterRepository) {
+    public SecretTokenService(EmailService emailService, TokenRepository tokenRepository, RecommendationLetterRepository letterRepository, PasswordEncoder passwordEncoder) {
         this.letterRepository = letterRepository;
-        this.passwordEncoder = defaultsForSpringSecurity_v5_8();
+        this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.tokenRepository = tokenRepository;
     }

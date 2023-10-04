@@ -2,11 +2,9 @@ package org.uj.token;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.uj.BaseApplicationTest;
-import org.uj.email.EmailService;
 import org.uj.letter.RecommendationLetter;
 import org.uj.letter.RecommendationLetterRepository;
 
@@ -14,8 +12,8 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.uj.token.SecretTokenController.*;
 import static org.uj.token.SecretTokenController.TOKEN_ENDPOINT;
+import static org.uj.token.SecretTokenController.TokenRequest;
 
 public class SecretTokenControllerTest extends BaseApplicationTest {
     @Autowired

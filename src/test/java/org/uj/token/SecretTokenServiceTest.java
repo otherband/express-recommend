@@ -101,7 +101,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         private final FakeEmailService fakeEmailService;
 
         public TestableTokenService(FakeEmailService emailService, TokenRepository tokenRepository, RecommendationLetterRepository letterRepository) {
-            super(emailService, tokenRepository, letterRepository);
+            super(emailService, tokenRepository, letterRepository, defaultsForSpringSecurity_v5_8());
             fakeEmailService = emailService;
         }
 
