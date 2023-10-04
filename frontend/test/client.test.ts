@@ -2,6 +2,7 @@ import { postCreateLetterRequest } from "../src/main"
 
 test(
     "Create letter",  async () => {
-        await postCreateLetterRequest("yazan", "yazan amer")
+        const response  = await postCreateLetterRequest("yazan@yaz.com", "yazan amer")
+        expect(response.status).toBe(201);
     }
 )

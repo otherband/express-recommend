@@ -8,6 +8,7 @@ import static org.uj.token.SecretTokenController.TOKEN_ENDPOINT;
 
 @RestController
 @RequestMapping(TOKEN_ENDPOINT)
+@CrossOrigin("*")
 public class SecretTokenController {
     public static final String TOKEN_ENDPOINT = "/api/v1/verification";
     private final SecretTokenService tokenService;

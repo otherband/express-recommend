@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(RecommendationLetterController.LETTER_ENDPOINT)
+@CrossOrigin("*")
 public class RecommendationLetterController {
 
     public static final String LETTER_ENDPOINT = "/api/v1/recommendation-letter";
