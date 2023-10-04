@@ -3,13 +3,12 @@ package org.uj.letter;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.uj.BaseApplicationTest;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -21,11 +20,8 @@ import static org.uj.letter.RecommendationLetterController.LETTER_ENDPOINT;
 import static org.uj.letter.RecommendationLetterController.RecommendationLetterRequest;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("h2")
-public class RecommendationLetterControllerTest {
+public class RecommendationLetterControllerTest extends BaseApplicationTest {
 
-    private static final Gson GSON = new Gson();
     public static final String VALID_ID = "VALID_ID";
     @Autowired
     MockMvc mockMvc;

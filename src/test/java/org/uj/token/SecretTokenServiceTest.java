@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.uj.BaseJpaTest;
 import org.uj.email.EmailService;
 
 import java.time.Duration;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8;
 
 @DataJpaTest
-public class SecretTokenServiceTest {
+public class SecretTokenServiceTest extends BaseJpaTest {
     @Autowired
     private TokenJpaRepository tokenJpaRepository;
     public static final String EMAIL = "yazan@yazan.com";
@@ -28,7 +28,6 @@ public class SecretTokenServiceTest {
     @BeforeEach
     void setup() {
         tokenService = new TestableTokenService(
-                passwordEncoder,
                 emailService,
                 new TokenRepositoryImpl(tokenJpaRepository)
         );
@@ -70,7 +69,7 @@ public class SecretTokenServiceTest {
                 .isLessThan(1000);
     }
 
-    static class FakeEmailService implements EmailService {
+    public static class FakeEmailService implements EmailService {
 
         private String receivedSecret;
         private String receivedId;
@@ -83,8 +82,8 @@ public class SecretTokenServiceTest {
     static class TestableTokenService extends SecretTokenService {
         private final FakeEmailService fakeEmailService;
 
-        public TestableTokenService(PasswordEncoder passwordEncoder, FakeEmailService emailService, TokenRepository tokenRepository) {
-            super(passwordEncoder, emailService, tokenRepository);
+        public TestableTokenService(FakeEmailService emailService, TokenRepository tokenRepository) {
+            super(emailService, tokenRepository);
             fakeEmailService = emailService;
         }
 

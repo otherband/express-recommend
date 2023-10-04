@@ -1,6 +1,7 @@
 package org.uj.token;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.uj.email.EmailService;
 import org.uj.exceptions.UserInputException;
 
@@ -8,14 +9,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8;
+
+@Service
 public class SecretTokenService {
 
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final TokenRepository tokenRepository;
 
-    public SecretTokenService(PasswordEncoder passwordEncoder, EmailService emailService, TokenRepository tokenRepository) {
-        this.passwordEncoder = passwordEncoder;
+    public SecretTokenService(EmailService emailService, TokenRepository tokenRepository) {
+        this.passwordEncoder = defaultsForSpringSecurity_v5_8();
         this.emailService = emailService;
         this.tokenRepository = tokenRepository;
     }
