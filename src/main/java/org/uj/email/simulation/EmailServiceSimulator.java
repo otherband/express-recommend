@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.uj.email.EmailRequest;
 import org.uj.email.EmailService;
 
+import java.util.UUID;
+
 import static org.uj.email.simulation.SimulatedEmailsRepository.SimulatedEmail;
 
 @Component
@@ -26,6 +28,7 @@ public class EmailServiceSimulator implements EmailService {
 
     private static SimulatedEmail buildEmail(String letterId, String tokenId, String secretToken, String receiverAddress) {
         SimulatedEmail simulatedEmail = new SimulatedEmail();
+        simulatedEmail.setId(UUID.randomUUID().toString());
         simulatedEmail.setEmailTitle(String.format("Verification link for recommendation letter [%s]", letterId));
         simulatedEmail.setEmailBody(buildLink(letterId, tokenId, secretToken));
         simulatedEmail.setReceiverAddress(receiverAddress);
