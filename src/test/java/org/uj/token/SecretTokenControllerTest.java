@@ -42,7 +42,7 @@ public class SecretTokenControllerTest extends BaseApplicationTest {
 
     private static RecommendationLetter buildLetter(String letterId) {
         RecommendationLetter letter = new RecommendationLetter();
-        letter.setAuthor("Yazan");
+        letter.setAuthorEmail("Yazan");
         letter.setBody("Yazan is splendid");
         letter.setId(letterId);
         letter.setValidated(false);

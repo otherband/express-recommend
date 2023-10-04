@@ -15,7 +15,7 @@ public class RecommendationLetter {
     @Column(nullable = false)
     private String body;
     @Column(nullable = false)
-    private String author;
+    private String authorEmail;
     @Column(nullable = false)
     private boolean validated;
 }

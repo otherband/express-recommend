@@ -60,7 +60,7 @@ public class RecommendationLetterControllerTest extends BaseApplicationTest {
         RecommendationLetter recommendationLetter = new RecommendationLetter();
         recommendationLetter.setId(VALID_ID);
         recommendationLetter.setBody("BODY");
-        recommendationLetter.setAuthor("AUTHOR");
+        recommendationLetter.setAuthorEmail("AUTHOR");
         return recommendationLetter;
     }
 
@@ -74,7 +74,7 @@ public class RecommendationLetterControllerTest extends BaseApplicationTest {
 
     private static RecommendationLetterRequest buildRequest() {
         RecommendationLetterRequest request = new RecommendationLetterRequest();
-        request.setAuthor("AUTHOR");
+        request.setAuthorEmail("AUTHOR");
         request.setBody("BODY");
         return request;
     }

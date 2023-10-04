@@ -14,13 +14,13 @@ public class RecommendationLetterService {
         this.repository = repository;
     }
 
-    public RecommendationLetter create(String author, String body) {
+    public RecommendationLetter create(String authorEmail, String body) {
 
-        validateNotBlank(author, "Author");
+        validateNotBlank(authorEmail, "Author");
         validateNotBlank(body, "Body");
 
         RecommendationLetter recommendationLetter = new RecommendationLetter();
-        recommendationLetter.setAuthor(author);
+        recommendationLetter.setAuthorEmail(authorEmail);
         recommendationLetter.setBody(body);
         recommendationLetter.setId(UUID.randomUUID().toString());
         recommendationLetter.setValidated(false);

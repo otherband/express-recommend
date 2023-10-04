@@ -30,7 +30,7 @@ public class RecommendationLetterServiceTest extends BaseJpaTest {
     void create() {
         RecommendationLetter letter = service.create(AUTHOR, BODY);
         assertNotNull(letter.getId());
-        assertEquals(AUTHOR, letter.getAuthor());
+        assertEquals(AUTHOR, letter.getAuthorEmail());
         assertEquals(BODY, letter.getBody());
         assertFalse(letter.isValidated());
     }

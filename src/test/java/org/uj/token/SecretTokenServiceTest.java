@@ -89,7 +89,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         RecommendationLetter letter = new RecommendationLetter();
         letter.setId(LETTER_ID);
         letter.setBody("Letter body");
-        letter.setAuthor("Letter Author");
+        letter.setAuthorEmail("Letter Author");
         letter.setValidated(false);
         return letter;
     }

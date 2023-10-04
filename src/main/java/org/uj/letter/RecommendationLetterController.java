@@ -1,5 +1,8 @@
 package org.uj.letter;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +36,15 @@ public class RecommendationLetterController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationLetter create(@RequestBody RecommendationLetterRequest request) {
-        return letterService.create(request.author, request.body);
+    RecommendationLetter create(@RequestBody @Valid RecommendationLetterRequest request) {
+        return letterService.create(request.authorEmail, request.body);
     }
 
     @Data
     public static class RecommendationLetterRequest {
-        private String author;
+        @Email
+        private String authorEmail;
+        @NotBlank
         private String body;
     }
 
