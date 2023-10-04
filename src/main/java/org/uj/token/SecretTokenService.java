@@ -1,7 +1,5 @@
 package org.uj.token;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.uj.email.EmailService;
