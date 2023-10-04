@@ -25,10 +25,10 @@ public class RecommendationLetterController {
         return letterRepository.getAll();
     }
 
-    @GetMapping("/{requestId}")
-    RecommendationLetter get(@PathVariable String requestId) {
-        return letterRepository.get(requestId)
-                .orElseThrow(() -> letterDoesNotExist(requestId));
+    @GetMapping("/{letterId}")
+    RecommendationLetter get(@PathVariable String letterId) {
+        return letterRepository.get(letterId)
+                .orElseThrow(() -> letterDoesNotExist(letterId));
     }
 
     @PostMapping
@@ -43,8 +43,8 @@ public class RecommendationLetterController {
         private String body;
     }
 
-    private static UserInputException letterDoesNotExist(String requestId) {
+    private static UserInputException letterDoesNotExist(String letterId) {
         return new UserInputException(String.format("Recommendation letter with ID [%s] does not exist",
-                requestId));
+                letterId));
     }
 }

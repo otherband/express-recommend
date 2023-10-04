@@ -2,9 +2,10 @@ package org.uj.token;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.uj.email.EmailRequest;
+import org.uj.email.VerificationLinkEmailRequest;
 import org.uj.email.EmailService;
 import org.uj.exceptions.UserInputException;
+import org.uj.letter.RecommendationLetterRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,8 +19,10 @@ public class SecretTokenService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final TokenRepository tokenRepository;
+    private final RecommendationLetterRepository letterRepository;
 
-    public SecretTokenService(EmailService emailService, TokenRepository tokenRepository) {
+    public SecretTokenService(EmailService emailService, TokenRepository tokenRepository, RecommendationLetterRepository letterRepository) {
+        this.letterRepository = letterRepository;
         this.passwordEncoder = defaultsForSpringSecurity_v5_8();
         this.emailService = emailService;
         this.tokenRepository = tokenRepository;
@@ -46,6 +49,7 @@ public class SecretTokenService {
     }
 
     public SecretToken create(String receiverEmail, String letterId) {
+        letterRepository.get(letterId).orElseThrow(() -> letterDoesNotExist(letterId));
         SecretToken secretToken = new SecretToken();
         secretToken.setCreationDate(LocalDateTime.now());
         secretToken.setLetterId(letterId);
@@ -54,6 +58,10 @@ public class SecretTokenService {
         handleSecret(receiverEmail, secretToken);
         tokenRepository.save(secretToken);
         return secretToken;
+    }
+
+    private static UserInputException letterDoesNotExist(String letterId) {
+        return new UserInputException(String.format("Letter with ID [%s] does not exist", letterId));
     }
 
     private void handleSecret(String receiverEmail, SecretToken secretToken) {
@@ -68,11 +76,11 @@ public class SecretTokenService {
 
     protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
         // provides a hook for testing
-        EmailRequest emailRequest = new EmailRequest();
-        emailRequest.setReceiverEmail(receiverEmail);
-        emailRequest.setSecretToken(secret);
-        emailRequest.setTokenId(tokenId);
-        emailRequest.setLetterId(letterId);
-        emailService.sendLetterVerificationLink(emailRequest);
+        VerificationLinkEmailRequest verificationLinkEmailRequest = new VerificationLinkEmailRequest();
+        verificationLinkEmailRequest.setReceiverEmail(receiverEmail);
+        verificationLinkEmailRequest.setSecretToken(secret);
+        verificationLinkEmailRequest.setTokenId(tokenId);
+        verificationLinkEmailRequest.setLetterId(letterId);
+        emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
     }
 }

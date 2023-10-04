@@ -2,7 +2,7 @@ package org.uj.email.simulation;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.uj.email.EmailRequest;
+import org.uj.email.VerificationLinkEmailRequest;
 import org.uj.email.EmailService;
 
 import java.util.UUID;
@@ -19,11 +19,11 @@ public class EmailServiceSimulator implements EmailService {
     }
 
     @Override
-    public void sendLetterVerificationLink(EmailRequest emailRequest) {
-        emailsRepository.save(buildEmail(emailRequest.getLetterId(),
-                emailRequest.getTokenId(),
-                emailRequest.getSecretToken(),
-                emailRequest.getReceiverEmail()));
+    public void sendLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
+        emailsRepository.save(buildEmail(verificationLinkEmailRequest.getLetterId(),
+                verificationLinkEmailRequest.getTokenId(),
+                verificationLinkEmailRequest.getSecretToken(),
+                verificationLinkEmailRequest.getReceiverEmail()));
     }
 
     private static SimulatedEmail buildEmail(String letterId, String tokenId, String secretToken, String receiverAddress) {

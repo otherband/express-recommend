@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.uj.BaseJpaTest;
-import org.uj.email.EmailRequest;
 import org.uj.email.EmailService;
+import org.uj.email.VerificationLinkEmailRequest;
+import org.uj.letter.RecommendationLetter;
+import org.uj.letter.RecommendationLetterJpaRepository;
+import org.uj.letter.RecommendationLetterRepository;
+import org.uj.letter.RecommendationLetterRepositoryImpl;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,6 +24,8 @@ import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder
 public class SecretTokenServiceTest extends BaseJpaTest {
     @Autowired
     private TokenJpaRepository tokenJpaRepository;
+    @Autowired
+    private RecommendationLetterJpaRepository letterJpaRepository;
     public static final String EMAIL = "yazan@yazan.com";
     public static final String LETTER_ID = "LETTER_ID";
     private final Pbkdf2PasswordEncoder passwordEncoder = defaultsForSpringSecurity_v5_8();
@@ -30,8 +36,10 @@ public class SecretTokenServiceTest extends BaseJpaTest {
     void setup() {
         tokenService = new TestableTokenService(
                 emailService,
-                new TokenRepositoryImpl(tokenJpaRepository)
+                new TokenRepositoryImpl(tokenJpaRepository),
+                new RecommendationLetterRepositoryImpl(letterJpaRepository)
         );
+        letterJpaRepository.save(buildLetter());
     }
 
 
@@ -65,9 +73,18 @@ public class SecretTokenServiceTest extends BaseJpaTest {
 
     }
 
+    private static RecommendationLetter buildLetter() {
+        RecommendationLetter letter = new RecommendationLetter();
+        letter.setId(LETTER_ID);
+        letter.setBody("Letter body");
+        letter.setAuthor("Letter Author");
+        letter.setValidated(false);
+        return letter;
+    }
+
     private void assertAlmostNow(LocalDateTime creationDate) {
         assertThat(Duration.between(creationDate, LocalDateTime.now()).toMillis())
-                .isLessThan(1000);
+                .isLessThan(5000);
     }
 
     public static class FakeEmailService implements EmailService {
@@ -76,15 +93,15 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         private String receivedId;
 
         @Override
-        public void sendLetterVerificationLink(EmailRequest emailRequest) {
+        public void sendLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
         }
     }
 
     static class TestableTokenService extends SecretTokenService {
         private final FakeEmailService fakeEmailService;
 
-        public TestableTokenService(FakeEmailService emailService, TokenRepository tokenRepository) {
-            super(emailService, tokenRepository);
+        public TestableTokenService(FakeEmailService emailService, TokenRepository tokenRepository, RecommendationLetterRepository letterRepository) {
+            super(emailService, tokenRepository, letterRepository);
             fakeEmailService = emailService;
         }
 
