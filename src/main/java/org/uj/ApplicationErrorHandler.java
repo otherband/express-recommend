@@ -15,8 +15,8 @@ public class ApplicationErrorHandler {
         return badRequest().body(exception.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    ResponseEntity<?> handleInternalError(Exception exception) {
+    @ExceptionHandler(Throwable.class)
+    ResponseEntity<?> handleInternalError(Throwable exception) {
         return internalServerError().body("Something went wrong");
     }
 
