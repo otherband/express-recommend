@@ -42,6 +42,10 @@ function showResult(message: string): void {
     message;
 }
 
+function getEmailsByAddress(emailAddress: string) {
+    
+}
+
 function postCreateLetterRequest(
   letterAuthorEmail: string,
   letterBody: string

@@ -1,6 +1,7 @@
 package org.uj.letter;
 
 import org.springframework.stereotype.Service;
+import org.uj.token.SecretTokenService;
 
 import java.util.UUID;
 
@@ -9,9 +10,11 @@ import static org.uj.Utils.validateNotBlank;
 @Service
 public class RecommendationLetterService {
     private final RecommendationLetterRepository repository;
+    private final SecretTokenService tokenService;
 
-    public RecommendationLetterService(RecommendationLetterRepository repository) {
+    public RecommendationLetterService(RecommendationLetterRepository repository, SecretTokenService tokenService) {
         this.repository = repository;
+        this.tokenService = tokenService;
     }
 
     public RecommendationLetter create(String authorEmail, String body) {
@@ -26,6 +29,7 @@ public class RecommendationLetterService {
         recommendationLetter.setValidated(false);
 
         repository.save(recommendationLetter);
+        tokenService.create(authorEmail, recommendationLetter.getId());
         return recommendationLetter;
     }
 

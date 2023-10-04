@@ -3,10 +3,14 @@ package org.uj.letter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.token.TokenService;
 import org.uj.BaseJpaTest;
 import org.uj.exceptions.UserInputException;
+import org.uj.token.SecretTokenService;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class RecommendationLetterServiceTest extends BaseJpaTest {
     public static final String AUTHOR = "AUTHOR";
@@ -14,10 +18,14 @@ public class RecommendationLetterServiceTest extends BaseJpaTest {
     private RecommendationLetterService service;
     @Autowired
     private RecommendationLetterJpaRepository recommendationLetterJpaRepository;
+    private SecretTokenService tokenService;
 
     @BeforeEach
     void setup() {
-        service = new RecommendationLetterService(new RecommendationLetterRepositoryImpl(recommendationLetterJpaRepository));
+        tokenService = mock(SecretTokenService.class);
+        service = new RecommendationLetterService(
+                new RecommendationLetterRepositoryImpl(recommendationLetterJpaRepository),
+                tokenService);
     }
 
     @Test
@@ -33,6 +41,7 @@ public class RecommendationLetterServiceTest extends BaseJpaTest {
         assertEquals(AUTHOR, letter.getAuthorEmail());
         assertEquals(BODY, letter.getBody());
         assertFalse(letter.isValidated());
+        verify(tokenService).create(AUTHOR, letter.getId());
     }
 
 }
