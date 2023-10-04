@@ -11,12 +11,11 @@ import lombok.Data;
 @Table(name = "recommendation_letter")
 public class RecommendationLetter {
     @Id
-    @Column(name = "id", nullable = false, unique = true)
     private String id;
-    @Column(name = "body", nullable = false)
+    @Column(nullable = false)
     private String body;
-    @Column(name = "author", nullable = false)
+    @Column(nullable = false)
     private String author;
-    @Column(name = "validated", nullable = false)
+    @Column(nullable = false)
     private boolean validated;
 }

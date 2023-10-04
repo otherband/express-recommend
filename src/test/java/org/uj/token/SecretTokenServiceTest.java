@@ -1,7 +1,10 @@
 package org.uj.token;
 
-import lombok.Getter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.uj.email.EmailService;
 
@@ -12,18 +15,35 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8;
 
+@DataJpaTest
 public class SecretTokenServiceTest {
+    @Autowired
+    private TokenJpaRepository tokenJpaRepository;
     public static final String EMAIL = "yazan@yazan.com";
     public static final String LETTER_ID = "LETTER_ID";
     private final Pbkdf2PasswordEncoder passwordEncoder = defaultsForSpringSecurity_v5_8();
     private final FakeEmailService emailService = new FakeEmailService();
-    private final SecretTokenService tokenService = new SecretTokenService(passwordEncoder,
-            emailService) {
-        @Override
-        protected void sendEmail(String receiverEmail, String secret) {
-            emailService.receivedSecret = secret;
-        }
-    };
+    private SecretTokenService tokenService;
+
+    @BeforeEach
+    void setup() {
+        tokenService = new TestableTokenService(
+                passwordEncoder,
+                emailService,
+                new TokenRepositoryImpl(tokenJpaRepository)
+        );
+    }
+
+
+    @Test
+    void verify() {
+        SecretToken secretToken = tokenService.create(EMAIL, LETTER_ID);
+        tokenService.verify(
+                emailService.receivedId,
+                secretToken.getLetterId(),
+                emailService.receivedSecret
+        );
+    }
 
     @Test
     void create() {
@@ -50,13 +70,28 @@ public class SecretTokenServiceTest {
                 .isLessThan(1000);
     }
 
-    @Getter
     static class FakeEmailService implements EmailService {
 
         private String receivedSecret;
+        private String receivedId;
 
         @Override
         public void sendEmail(String receivedAddress, String title, String body) {
+        }
+    }
+
+    static class TestableTokenService extends SecretTokenService {
+        private final FakeEmailService fakeEmailService;
+
+        public TestableTokenService(PasswordEncoder passwordEncoder, FakeEmailService emailService, TokenRepository tokenRepository) {
+            super(passwordEncoder, emailService, tokenRepository);
+            fakeEmailService = emailService;
+        }
+
+        @Override
+        protected void sendEmail(String receiverEmail, String secret, String tokenId) {
+            fakeEmailService.receivedSecret = secret;
+            fakeEmailService.receivedId = tokenId;
         }
     }
 
