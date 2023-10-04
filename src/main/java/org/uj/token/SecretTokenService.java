@@ -2,6 +2,7 @@ package org.uj.token;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.uj.email.EmailRequest;
 import org.uj.email.EmailService;
 import org.uj.exceptions.UserInputException;
 
@@ -50,14 +51,14 @@ public class SecretTokenService {
         secretToken.setLetterId(letterId);
         secretToken.setTokenId(randomString());
         secretToken.setAssociatedEmail(receiverEmail);
-        handleSecret(receiverEmail, secretToken, secretToken.getTokenId());
+        handleSecret(receiverEmail, secretToken);
         tokenRepository.save(secretToken);
         return secretToken;
     }
 
-    private void handleSecret(String receiverEmail, SecretToken secretToken, String tokenId) {
+    private void handleSecret(String receiverEmail, SecretToken secretToken) {
         String secret = randomString().concat(randomString());
-        sendEmail(receiverEmail, secret, tokenId);
+        sendEmail(receiverEmail, secret, secretToken.getTokenId(), secretToken.getLetterId());
         secretToken.setHashedSecret(passwordEncoder.encode(secret));
     }
 
@@ -65,10 +66,13 @@ public class SecretTokenService {
         return UUID.randomUUID().toString();
     }
 
-    protected void sendEmail(String receiverEmail, String secret, String tokenId) {
+    protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
         // provides a hook for testing
-        emailService.sendEmail(receiverEmail,
-                "Verification link for recommendation letter",
-                secret);
+        EmailRequest emailRequest = new EmailRequest();
+        emailRequest.setReceiverEmail(receiverEmail);
+        emailRequest.setSecretToken(secret);
+        emailRequest.setTokenId(tokenId);
+        emailRequest.setLetterId(letterId);
+        emailService.sendLetterVerificationLink(emailRequest);
     }
 }

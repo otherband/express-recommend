@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.uj.BaseJpaTest;
+import org.uj.email.EmailRequest;
 import org.uj.email.EmailService;
 
 import java.time.Duration;
@@ -75,7 +76,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         private String receivedId;
 
         @Override
-        public void sendEmail(String receivedAddress, String title, String body) {
+        public void sendLetterVerificationLink(EmailRequest emailRequest) {
         }
     }
 
@@ -88,7 +89,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         }
 
         @Override
-        protected void sendEmail(String receiverEmail, String secret, String tokenId) {
+        protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
             fakeEmailService.receivedSecret = secret;
             fakeEmailService.receivedId = tokenId;
         }
