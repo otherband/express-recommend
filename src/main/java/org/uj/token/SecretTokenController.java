@@ -23,11 +23,6 @@ public class SecretTokenController {
         tokenService.create(tokenRequest.receiverEmail, tokenRequest.letterId);
     }
 
-    @PostMapping("/{letterId}/{tokenId}/{secret}")
-    public void verify(@PathVariable String letterId, @PathVariable String tokenId, @PathVariable String secret) {
-        tokenService.verify(tokenId, letterId, secret);
-    }
-
     @Data
     public static class VerificationRequest {
         private String letterId;

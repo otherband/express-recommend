@@ -3,7 +3,6 @@ package org.uj.letter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
 import org.uj.BaseJpaTest;
 import org.uj.exceptions.UserInputException;
 import org.uj.token.SecretTokenService;
@@ -36,7 +35,7 @@ public class RecommendationLetterServiceTest extends BaseJpaTest {
 
     @Test
     void create() {
-        RecommendationLetter letter = service.create(AUTHOR, BODY);
+        RecommendationLetterEntity letter = service.create(AUTHOR, BODY);
         assertNotNull(letter.getId());
         assertEquals(AUTHOR, letter.getAuthorEmail());
         assertEquals(BODY, letter.getBody());

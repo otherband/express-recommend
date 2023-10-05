@@ -3,7 +3,7 @@ package org.uj.token;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.uj.email.EmailService;
-import org.uj.email.VerificationLinkEmailRequest;
+import org.uj.email.VerificationLinkEmailRequestDto;
 import org.uj.exceptions.UserInputException;
 import org.uj.letter.RecommendationLetterRepository;
 
@@ -35,13 +35,13 @@ public class SecretTokenService {
                 .filter(secretToken -> secretToken.getTokenId().equals(tokenId))
                 .findAny()
                 .filter(requestedToken -> passwordEncoder.matches(rawSecret, requestedToken.getHashedSecret()))
-                .orElseThrow(() -> formattedException("No matching secrets found for letter with ID [%s]", letterId));
+                .orElseThrow(() -> UserInputException.formatted("No matching secrets found for letter with ID [%s]", letterId));
     }
 
-    public SecretToken create(String receiverEmail, String letterId) {
+    public TokenEntity create(String receiverEmail, String letterId) {
         validate(receiverEmail, letterId);
         letterRepository.get(letterId).orElseThrow(() -> letterDoesNotExist(letterId));
-        SecretToken secretToken = new SecretToken();
+        TokenEntity secretToken = new TokenEntity();
         secretToken.setCreationDate(LocalDateTime.now());
         secretToken.setLetterId(letterId);
         secretToken.setTokenId(randomString());
@@ -58,7 +58,7 @@ public class SecretTokenService {
 
     protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
         // provides a hook for testing
-        VerificationLinkEmailRequest verificationLinkEmailRequest = new VerificationLinkEmailRequest();
+        VerificationLinkEmailRequestDto verificationLinkEmailRequest = new VerificationLinkEmailRequestDto();
         verificationLinkEmailRequest.setReceiverEmail(receiverEmail);
         verificationLinkEmailRequest.setSecretToken(secret);
         verificationLinkEmailRequest.setTokenId(tokenId);
@@ -66,15 +66,11 @@ public class SecretTokenService {
         emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
     }
 
-    private List<SecretToken> getByLetterId(String letterId) {
-        List<SecretToken> associatedTokens = tokenRepository.getByLetterId(letterId);
+    private List<TokenEntity> getByLetterId(String letterId) {
+        List<TokenEntity> associatedTokens = tokenRepository.getByLetterId(letterId);
         if (associatedTokens.isEmpty())
-            throw formattedException("No associated tokens found for letter with ID [%s]", letterId);
+            throw UserInputException.formatted("No associated tokens found for letter with ID [%s]", letterId);
         return associatedTokens;
-    }
-
-    private static UserInputException formattedException(String template, String letterId) {
-        return new UserInputException(String.format(template, letterId));
     }
 
     private static void validate(String tokenId, String letterId, String rawSecret) {
@@ -84,10 +80,10 @@ public class SecretTokenService {
     }
 
     private static UserInputException letterDoesNotExist(String letterId) {
-        return new UserInputException(String.format("Letter with ID [%s] does not exist", letterId));
+        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
     }
 
-    private void handleSecret(String receiverEmail, SecretToken secretToken) {
+    private void handleSecret(String receiverEmail, TokenEntity secretToken) {
         String secret = randomString().concat(randomString());
         sendEmail(receiverEmail, secret, secretToken.getTokenId(), secretToken.getLetterId());
         secretToken.setHashedSecret(passwordEncoder.encode(secret));

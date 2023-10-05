@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class SecretToken {
+public class TokenEntity {
     @Id
     private String tokenId;
     @Column(nullable = false)

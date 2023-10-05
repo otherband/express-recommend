@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TokenRepository {
-    void save(SecretToken secretToken);
+    void save(TokenEntity secretToken);
 
-    List<SecretToken> getByLetterId(String letterId);
+    List<TokenEntity> getByLetterId(String letterId);
 
-    Optional<SecretToken> getByTokenId(String tokenId);
+    Optional<TokenEntity> getByTokenId(String tokenId);
 
 }

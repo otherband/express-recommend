@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "recommendation_letter")
-public class RecommendationLetter {
+public class RecommendationLetterEntity {
     @Id
     private String id;
     @Column(nullable = false)

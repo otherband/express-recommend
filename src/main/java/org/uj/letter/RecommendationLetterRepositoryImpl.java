@@ -16,12 +16,12 @@ public class RecommendationLetterRepositoryImpl implements RecommendationLetterR
     }
 
     @Override
-    public void save(RecommendationLetter recommendationLetter) {
+    public void save(RecommendationLetterEntity recommendationLetter) {
         recommendationLetterJpaRepository.save(recommendationLetter);
     }
 
     @Override
-    public void update(RecommendationLetter updatedLetter) {
+    public void update(RecommendationLetterEntity updatedLetter) {
         recommendationLetterJpaRepository
                 .findById(updatedLetter.getId())
                 .map(oldLetter -> recommendationLetterJpaRepository.save(updatedLetter))
@@ -30,16 +30,16 @@ public class RecommendationLetterRepositoryImpl implements RecommendationLetterR
     }
 
     @Override
-    public Optional<RecommendationLetter> get(String id) {
+    public Optional<RecommendationLetterEntity> get(String id) {
         return recommendationLetterJpaRepository.findById(id);
     }
 
     @Override
-    public List<RecommendationLetter> getAll() {
+    public List<RecommendationLetterEntity> getAll() {
         return recommendationLetterJpaRepository.findAll();
     }
 
-    private static UserInputException letterToUpdateDoesNotExist(RecommendationLetter updatedLetter) {
+    private static UserInputException letterToUpdateDoesNotExist(RecommendationLetterEntity updatedLetter) {
         return new UserInputException(String.format("Cannot update letter with ID [%s] because it does not exist", updatedLetter.getId()));
     }
 }

@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RecommendationLetterRepository {
-    void save(RecommendationLetter recommendationLetter);
+    void save(RecommendationLetterEntity recommendationLetter);
 
-    void update(RecommendationLetter recommendationLetter);
+    void update(RecommendationLetterEntity recommendationLetter);
 
-    Optional<RecommendationLetter> get(String id);
+    Optional<RecommendationLetterEntity> get(String id);
 
-    List<RecommendationLetter> getAll();
+    List<RecommendationLetterEntity> getAll();
 }
