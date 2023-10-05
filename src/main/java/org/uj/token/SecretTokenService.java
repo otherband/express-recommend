@@ -38,10 +38,10 @@ public class SecretTokenService {
                 .orElseThrow(() -> formattedException("No matching secrets found for letter with ID [%s]", letterId));
     }
 
-    public SecretToken create(String receiverEmail, String letterId) {
+    public TokenEntity create(String receiverEmail, String letterId) {
         validate(receiverEmail, letterId);
         letterRepository.get(letterId).orElseThrow(() -> letterDoesNotExist(letterId));
-        SecretToken secretToken = new SecretToken();
+        TokenEntity secretToken = new TokenEntity();
         secretToken.setCreationDate(LocalDateTime.now());
         secretToken.setLetterId(letterId);
         secretToken.setTokenId(randomString());
@@ -66,8 +66,8 @@ public class SecretTokenService {
         emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
     }
 
-    private List<SecretToken> getByLetterId(String letterId) {
-        List<SecretToken> associatedTokens = tokenRepository.getByLetterId(letterId);
+    private List<TokenEntity> getByLetterId(String letterId) {
+        List<TokenEntity> associatedTokens = tokenRepository.getByLetterId(letterId);
         if (associatedTokens.isEmpty())
             throw formattedException("No associated tokens found for letter with ID [%s]", letterId);
         return associatedTokens;
@@ -87,7 +87,7 @@ public class SecretTokenService {
         return new UserInputException(String.format("Letter with ID [%s] does not exist", letterId));
     }
 
-    private void handleSecret(String receiverEmail, SecretToken secretToken) {
+    private void handleSecret(String receiverEmail, TokenEntity secretToken) {
         String secret = randomString().concat(randomString());
         sendEmail(receiverEmail, secret, secretToken.getTokenId(), secretToken.getLetterId());
         secretToken.setHashedSecret(passwordEncoder.encode(secret));

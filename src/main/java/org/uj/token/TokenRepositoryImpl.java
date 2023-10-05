@@ -14,17 +14,17 @@ public class TokenRepositoryImpl implements TokenRepository {
     }
 
     @Override
-    public void save(SecretToken secretToken) {
+    public void save(TokenEntity secretToken) {
         tokenJpaRepository.save(secretToken);
     }
 
     @Override
-    public List<SecretToken> getByLetterId(String letterId) {
+    public List<TokenEntity> getByLetterId(String letterId) {
         return tokenJpaRepository.findByLetterId(letterId);
     }
 
     @Override
-    public Optional<SecretToken> getByTokenId(String tokenId) {
+    public Optional<TokenEntity> getByTokenId(String tokenId) {
         return tokenJpaRepository.findById(tokenId);
     }
 }

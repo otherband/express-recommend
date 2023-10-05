@@ -57,7 +57,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
 
     @Test
     void verify() {
-        SecretToken secretToken = tokenService.create(EMAIL, LETTER_ID);
+        TokenEntity secretToken = tokenService.create(EMAIL, LETTER_ID);
         tokenService.verify(
                 emailService.receivedId,
                 secretToken.getLetterId(),
@@ -67,7 +67,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
 
     @Test
     void create() {
-        SecretToken secretToken = tokenService.create(EMAIL, LETTER_ID);
+        TokenEntity secretToken = tokenService.create(EMAIL, LETTER_ID);
         assertAlmostNow(secretToken.getCreationDate());
         assertNotNull(secretToken.getTokenId());
         assertEquals(LETTER_ID, secretToken.getLetterId());
