@@ -2,10 +2,10 @@ name: Verify Code
 on:
   pull_request:
     branches:
-      - 'master'
+      - 'main'
   push:
     branches:
-      - 'master'
+      - 'main'
 jobs:
   verify_code:
     name: Verify
