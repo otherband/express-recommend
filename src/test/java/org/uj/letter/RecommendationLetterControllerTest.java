@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.uj.letter.RecommendationLetterController.LETTER_ENDPOINT;
-import static org.uj.letter.RecommendationLetterController.RecommendationLetterRequestEntity;
+import static org.uj.letter.RecommendationLetterController.RecommendationLetterRequest;
 
 @SpringBootTest
 public class RecommendationLetterControllerTest extends BaseApplicationTest {
@@ -42,7 +42,7 @@ public class RecommendationLetterControllerTest extends BaseApplicationTest {
 
     @Test
     void post() throws Exception {
-        RecommendationLetterRequestEntity request = buildRequest();
+        RecommendationLetterRequest request = buildRequest();
         request.setBody(UUID.randomUUID().toString());
         mockMvc.perform(MockMvcRequestBuilders.post(LETTER_ENDPOINT)
                         .content(GSON.toJson(request))
@@ -72,8 +72,8 @@ public class RecommendationLetterControllerTest extends BaseApplicationTest {
         return LETTER_ENDPOINT.concat("/").concat(id);
     }
 
-    private static RecommendationLetterRequestEntity buildRequest() {
-        RecommendationLetterRequestEntity request = new RecommendationLetterRequestEntity();
+    private static RecommendationLetterRequest buildRequest() {
+        RecommendationLetterRequest request = new RecommendationLetterRequest();
         request.setAuthorEmail("AUTHOR");
         request.setBody("BODY");
         return request;

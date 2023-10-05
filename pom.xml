@@ -142,6 +142,8 @@
                                     <!-- Data Objects -->
                                     <exclude>**/*Dto.*</exclude>
                                     <exclude>**/*Entity.*</exclude>
+                                    <exclude>**/*Request.*</exclude>
+                                    <exclude>**/*Response.*</exclude>
 
                                     <!-- Exceptions -->
                                     <exclude>**/*Exception.*</exclude>

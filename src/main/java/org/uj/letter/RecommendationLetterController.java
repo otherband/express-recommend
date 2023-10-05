@@ -37,12 +37,12 @@ public class RecommendationLetterController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationLetterEntity create(@RequestBody @Valid RecommendationLetterRequestEntity request) {
+    RecommendationLetterEntity create(@RequestBody @Valid RecommendationLetterRequest request) {
         return letterService.create(request.authorEmail, request.body);
     }
 
     @Data
-    public static class RecommendationLetterRequestEntity {
+    public static class RecommendationLetterRequest {
         @Email
         private String authorEmail;
         @NotBlank
