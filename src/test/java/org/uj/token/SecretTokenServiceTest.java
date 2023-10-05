@@ -24,6 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8;
+import static org.uj.TestUtils.assertThrowsWithMessage;
 
 @DataJpaTest
 public class SecretTokenServiceTest extends BaseJpaTest {
@@ -33,6 +34,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
     private RecommendationLetterJpaRepository letterJpaRepository;
     public static final String EMAIL = "yazan@yazan.com";
     public static final String LETTER_ID = "LETTER_ID";
+    public static final String INVALID_LETTER_ID = "INVALID_LETTER_ID";
     private final Pbkdf2PasswordEncoder passwordEncoder = defaultsForSpringSecurity_v5_8();
     private final FakeEmailService emailService = new FakeEmailService();
     private SecretTokenService tokenService;
@@ -81,8 +83,13 @@ public class SecretTokenServiceTest extends BaseJpaTest {
                         secretToken.getHashedSecret()
                 )
         );
+    }
 
-
+    @Test
+    void createTokenWithNonExistentLetter() {
+        assertThrowsWithMessage(UserInputException.class,
+                () -> tokenService.create(EMAIL, INVALID_LETTER_ID),
+                "Letter with ID [INVALID_LETTER_ID] does not exist");
     }
 
     private static RecommendationLetterEntity buildLetter() {
