@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.uj</groupId>
+    <groupId>org.${group.id}</groupId>
     <artifactId>express-recommend</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -15,6 +15,7 @@
 
         <!-- Code Coverage -->
         <minimum.code.coverage>0.9</minimum.code.coverage>
+        <group.id>otherband</group.id>
     </properties>
 
     <dependencies>
@@ -100,7 +101,7 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>3.1.4</version>
                     <configuration>
-                        <mainClass>org.uj.Application</mainClass>
+                        <mainClass>org.${group.id}.Application</mainClass>
                     </configuration>
                     <executions>
                         <execution>
@@ -153,8 +154,8 @@
                                     <exclude>**/*Exception.*</exclude>
 
                                     <!-- Application -->
-                                    <exclude>**/org/uj/Application.*</exclude>
-                                    <exclude>**/org/uj/ApplicationErrorHandler.*</exclude>
+                                    <exclude>**/org/${group.id}/Application.*</exclude>
+                                    <exclude>**/org/${group.id}/ApplicationErrorHandler.*</exclude>
 
                                     <!-- Demo -->
                                     <exclude>**/simulation/**/*</exclude>
