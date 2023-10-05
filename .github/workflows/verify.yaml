@@ -8,6 +8,7 @@ on:
       - 'master'
 jobs:
   verify_code:
+    name: Verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
