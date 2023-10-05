@@ -33,4 +33,16 @@ public class RecommendationLetterService {
         return recommendationLetter;
     }
 
+    public RecommendationLetterEntity verify(String tokenId, String letterId, String secret) {
+        tokenService.verify(tokenId, letterId, secret);
+        return repository.get(letterId)
+                .map(this::updateLetter)
+                .orElseThrow(AssertionError::new);
+    }
+
+    private RecommendationLetterEntity updateLetter(RecommendationLetterEntity recommendationLetter) {
+        recommendationLetter.setValidated(true);
+        return repository.update(recommendationLetter);
+    }
+
 }

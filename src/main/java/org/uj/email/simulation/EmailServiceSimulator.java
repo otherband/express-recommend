@@ -2,11 +2,14 @@ package org.uj.email.simulation;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.uj.email.VerificationLinkEmailRequestDto;
 import org.uj.email.EmailService;
+import org.uj.email.VerificationLinkEmailRequest;
+import org.uj.letter.RecommendationLetterController;
 
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.uj.email.simulation.SimulatedEmailsRepository.SimulatedEmail;
 
 @Component
@@ -19,7 +22,7 @@ public class EmailServiceSimulator implements EmailService {
     }
 
     @Override
-    public void sendLetterVerificationLink(VerificationLinkEmailRequestDto verificationLinkEmailRequest) {
+    public void sendLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
         emailsRepository.save(buildEmail(verificationLinkEmailRequest.getLetterId(),
                 verificationLinkEmailRequest.getTokenId(),
                 verificationLinkEmailRequest.getSecretToken(),
@@ -36,6 +39,7 @@ public class EmailServiceSimulator implements EmailService {
     }
 
     private static String buildLink(String letterId, String tokenId, String secretToken) {
-        return String.format("http://localhost:8085/api/v1/verification/%s/%s/%s", letterId, tokenId, secretToken);
+        return linkTo(methodOn(RecommendationLetterController.class)
+                .verify(letterId, tokenId, secretToken)).withSelfRel().toString();
     }
 }

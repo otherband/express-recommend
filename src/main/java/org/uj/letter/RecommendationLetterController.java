@@ -25,19 +25,24 @@ public class RecommendationLetterController {
     }
 
     @GetMapping
-    List<RecommendationLetterEntity> getAll() {
+    List<RecommendationLetterEntity > getAll() {
         return letterRepository.getAll();
     }
 
+    @GetMapping("/verify/{letterId}/{tokenId}/{secret}")
+    public RecommendationLetterEntity  verify(@PathVariable String letterId, @PathVariable String tokenId, @PathVariable String secret) {
+        return letterService.verify(tokenId, letterId, secret);
+    }
+
     @GetMapping("/{letterId}")
-    RecommendationLetterEntity get(@PathVariable String letterId) {
+    RecommendationLetterEntity  get(@PathVariable String letterId) {
         return letterRepository.get(letterId)
                 .orElseThrow(() -> letterDoesNotExist(letterId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationLetterEntity create(@RequestBody @Valid RecommendationLetterRequest request) {
+    RecommendationLetterEntity  create(@RequestBody @Valid RecommendationLetterRequest request) {
         return letterService.create(request.authorEmail, request.body);
     }
 

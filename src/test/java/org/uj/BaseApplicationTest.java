@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.uj.email.EmailService;
-import org.uj.token.SecretTokenServiceTest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -19,7 +18,7 @@ public class BaseApplicationTest {
     static class TestConfiguration {
         @Bean
         EmailService getEmailService() {
-            return new SecretTokenServiceTest.FakeEmailService();
+            return new FakeEmailService();
         }
     }
 

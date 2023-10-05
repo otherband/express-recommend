@@ -14,8 +14,8 @@ public class TokenRepositoryImpl implements TokenRepository {
     }
 
     @Override
-    public void save(TokenEntity secretToken) {
-        tokenJpaRepository.save(secretToken);
+    public TokenEntity save(TokenEntity secretToken) {
+        return tokenJpaRepository.save(secretToken);
     }
 
     @Override
