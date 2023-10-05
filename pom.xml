@@ -148,6 +148,10 @@
                                     <!-- Exceptions -->
                                     <exclude>**/*Exception.*</exclude>
 
+                                    <!-- Application -->
+                                    <exclude>**/org/uj/Application.*</exclude>
+                                    <exclude>**/org/uj/ApplicationErrorHandler.*</exclude>
+
                                     <!-- Demo -->
                                     <exclude>**/simulation/**/*</exclude>
                                 </excludes>
