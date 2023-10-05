@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.uj.TestUtils.assertThrowsWithMessage;
 
 class UtilsTest {
-
 	@Test
 	void throwsIfIsBlank() {
 		assertThrowsWithMessage(UserInputException.class, () -> Utils.validateNotBlank("", "field1"), "[field1] cannot be blank");
