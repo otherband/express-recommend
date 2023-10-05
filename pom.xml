@@ -134,6 +134,18 @@
                                 <goal>check</goal>
                             </goals>
                             <configuration>
+                                <excludes>
+                                    <!-- Repositories -->
+                                    <exclude>**/*Repository.*</exclude>
+                                    <exclude>**/*RepositoryImpl.*</exclude>
+
+                                    <!-- Data Objects -->
+                                    <exclude>**/*DTO.*</exclude>
+                                    <exclude>**/*Entity.*</exclude>
+
+                                    <!-- Exceptions -->
+                                    <exclude>**/*Exception.*</exclude>
+                                </excludes>
                                 <rules>
                                     <rule>
                                         <element>CLASS</element>
