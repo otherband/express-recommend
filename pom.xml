@@ -147,6 +147,9 @@
 
                                     <!-- Exceptions -->
                                     <exclude>**/*Exception.*</exclude>
+
+                                    <!-- Demo -->
+                                    <exclude>**/simulation/**/*</exclude>
                                 </excludes>
                                 <rules>
                                     <rule>
