@@ -140,7 +140,7 @@
                                     <exclude>**/*RepositoryImpl.*</exclude>
 
                                     <!-- Data Objects -->
-                                    <exclude>**/*DTO.*</exclude>
+                                    <exclude>**/*Dto.*</exclude>
                                     <exclude>**/*Entity.*</exclude>
 
                                     <!-- Exceptions -->

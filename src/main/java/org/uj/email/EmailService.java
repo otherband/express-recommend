@@ -1,5 +1,5 @@
 package org.uj.email;
 
 public interface EmailService {
-    void sendLetterVerificationLink(VerificationLinkEmailRequestDTO verificationLinkEmailRequest);
+    void sendLetterVerificationLink(VerificationLinkEmailRequestDto verificationLinkEmailRequest);
 }

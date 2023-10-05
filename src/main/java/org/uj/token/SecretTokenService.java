@@ -3,7 +3,7 @@ package org.uj.token;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.uj.email.EmailService;
-import org.uj.email.VerificationLinkEmailRequestDTO;
+import org.uj.email.VerificationLinkEmailRequestDto;
 import org.uj.exceptions.UserInputException;
 import org.uj.letter.RecommendationLetterRepository;
 
@@ -58,7 +58,7 @@ public class SecretTokenService {
 
     protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
         // provides a hook for testing
-        VerificationLinkEmailRequestDTO verificationLinkEmailRequest = new VerificationLinkEmailRequestDTO();
+        VerificationLinkEmailRequestDto verificationLinkEmailRequest = new VerificationLinkEmailRequestDto();
         verificationLinkEmailRequest.setReceiverEmail(receiverEmail);
         verificationLinkEmailRequest.setSecretToken(secret);
         verificationLinkEmailRequest.setTokenId(tokenId);
