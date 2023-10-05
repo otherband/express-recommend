@@ -68,6 +68,19 @@ public class SecretTokenServiceTest extends BaseJpaTest {
     }
 
     @Test
+    void verifyWithNonExistentLetter() {
+        tokenService.create(EMAIL, LETTER_ID);
+
+        assertThrowsWithMessage(UserInputException.class,
+                () -> tokenService.verify(
+                        emailService.receivedId,
+                        INVALID_LETTER_ID,
+                        emailService.receivedSecret
+                ),
+                "No associated tokens found for letter with ID [INVALID_LETTER_ID]");
+    }
+
+    @Test
     void create() {
         TokenEntity secretToken = tokenService.create(EMAIL, LETTER_ID);
         assertAlmostNow(secretToken.getCreationDate());

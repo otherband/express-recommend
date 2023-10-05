@@ -35,7 +35,7 @@ public class SecretTokenService {
                 .filter(secretToken -> secretToken.getTokenId().equals(tokenId))
                 .findAny()
                 .filter(requestedToken -> passwordEncoder.matches(rawSecret, requestedToken.getHashedSecret()))
-                .orElseThrow(() -> formattedException("No matching secrets found for letter with ID [%s]", letterId));
+                .orElseThrow(() -> UserInputException.formatted("No matching secrets found for letter with ID [%s]", letterId));
     }
 
     public TokenEntity create(String receiverEmail, String letterId) {
@@ -69,12 +69,8 @@ public class SecretTokenService {
     private List<TokenEntity> getByLetterId(String letterId) {
         List<TokenEntity> associatedTokens = tokenRepository.getByLetterId(letterId);
         if (associatedTokens.isEmpty())
-            throw formattedException("No associated tokens found for letter with ID [%s]", letterId);
+            throw UserInputException.formatted("No associated tokens found for letter with ID [%s]", letterId);
         return associatedTokens;
-    }
-
-    private static UserInputException formattedException(String template, String letterId) {
-        return new UserInputException(String.format(template, letterId));
     }
 
     private static void validate(String tokenId, String letterId, String rawSecret) {
@@ -84,7 +80,7 @@ public class SecretTokenService {
     }
 
     private static UserInputException letterDoesNotExist(String letterId) {
-        return new UserInputException(String.format("Letter with ID [%s] does not exist", letterId));
+        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
     }
 
     private void handleSecret(String receiverEmail, TokenEntity secretToken) {
