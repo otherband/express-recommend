@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.uj.letter.RecommendationLetterController.LETTER_ENDPOINT;
-import static org.uj.letter.RecommendationLetterController.RecommendationLetterRequest;
+import static org.uj.letter.RecommendationLetterController.RecommendationLetterRequestEntity;
 
 @SpringBootTest
 public class RecommendationLetterControllerTest extends BaseApplicationTest {
@@ -34,7 +34,7 @@ public class RecommendationLetterControllerTest extends BaseApplicationTest {
 
     @Test
     void getOne() throws Exception {
-        RecommendationLetter recommendationLetter = create();
+        RecommendationLetterEntity recommendationLetter = create();
         letterRepository.save(recommendationLetter);
         mockMvc.perform(get(byId("INVALID_ID"))).andExpect(status().isBadRequest());
         mockMvc.perform(get(byId(VALID_ID))).andExpect(status().isOk());
@@ -42,38 +42,38 @@ public class RecommendationLetterControllerTest extends BaseApplicationTest {
 
     @Test
     void post() throws Exception {
-        RecommendationLetterRequest request = buildRequest();
+        RecommendationLetterRequestEntity request = buildRequest();
         request.setBody(UUID.randomUUID().toString());
         mockMvc.perform(MockMvcRequestBuilders.post(LETTER_ENDPOINT)
                         .content(GSON.toJson(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(result -> {
-                    RecommendationLetter letter = parse(result);
+                    RecommendationLetterEntity letter = parse(result);
                     assertThat(letterRepository.get(letter.getId())).isPresent();
                 });
 
 
     }
 
-    private static RecommendationLetter create() {
-        RecommendationLetter recommendationLetter = new RecommendationLetter();
+    private static RecommendationLetterEntity create() {
+        RecommendationLetterEntity recommendationLetter = new RecommendationLetterEntity();
         recommendationLetter.setId(VALID_ID);
         recommendationLetter.setBody("BODY");
         recommendationLetter.setAuthorEmail("AUTHOR");
         return recommendationLetter;
     }
 
-    private static RecommendationLetter parse(MvcResult result) throws UnsupportedEncodingException {
-        return GSON.fromJson(result.getResponse().getContentAsString(), RecommendationLetter.class);
+    private static RecommendationLetterEntity parse(MvcResult result) throws UnsupportedEncodingException {
+        return GSON.fromJson(result.getResponse().getContentAsString(), RecommendationLetterEntity.class);
     }
 
     private static String byId(String id) {
         return LETTER_ENDPOINT.concat("/").concat(id);
     }
 
-    private static RecommendationLetterRequest buildRequest() {
-        RecommendationLetterRequest request = new RecommendationLetterRequest();
+    private static RecommendationLetterRequestEntity buildRequest() {
+        RecommendationLetterRequestEntity request = new RecommendationLetterRequestEntity();
         request.setAuthorEmail("AUTHOR");
         request.setBody("BODY");
         return request;

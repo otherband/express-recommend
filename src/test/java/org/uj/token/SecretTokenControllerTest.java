@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.uj.BaseApplicationTest;
-import org.uj.letter.RecommendationLetter;
+import org.uj.letter.RecommendationLetterEntity;
 import org.uj.letter.RecommendationLetterRepository;
 
 import java.util.UUID;
@@ -40,8 +40,8 @@ public class SecretTokenControllerTest extends BaseApplicationTest {
         return tokenRequest;
     }
 
-    private static RecommendationLetter buildLetter(String letterId) {
-        RecommendationLetter letter = new RecommendationLetter();
+    private static RecommendationLetterEntity buildLetter(String letterId) {
+        RecommendationLetterEntity letter = new RecommendationLetterEntity();
         letter.setAuthorEmail("Yazan");
         letter.setBody("Yazan is splendid");
         letter.setId(letterId);

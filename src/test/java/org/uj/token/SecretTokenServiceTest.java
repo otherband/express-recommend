@@ -12,7 +12,7 @@ import org.uj.BaseJpaTest;
 import org.uj.email.EmailService;
 import org.uj.email.VerificationLinkEmailRequest;
 import org.uj.exceptions.UserInputException;
-import org.uj.letter.RecommendationLetter;
+import org.uj.letter.RecommendationLetterEntity;
 import org.uj.letter.RecommendationLetterJpaRepository;
 import org.uj.letter.RecommendationLetterRepository;
 import org.uj.letter.RecommendationLetterRepositoryImpl;
@@ -85,8 +85,8 @@ public class SecretTokenServiceTest extends BaseJpaTest {
 
     }
 
-    private static RecommendationLetter buildLetter() {
-        RecommendationLetter letter = new RecommendationLetter();
+    private static RecommendationLetterEntity buildLetter() {
+        RecommendationLetterEntity letter = new RecommendationLetterEntity();
         letter.setId(LETTER_ID);
         letter.setBody("Letter body");
         letter.setAuthorEmail("Letter Author");

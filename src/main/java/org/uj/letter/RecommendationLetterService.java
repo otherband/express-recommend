@@ -17,12 +17,12 @@ public class RecommendationLetterService {
         this.tokenService = tokenService;
     }
 
-    public RecommendationLetter create(String authorEmail, String body) {
+    public RecommendationLetterEntity create(String authorEmail, String body) {
 
         validateNotBlank(authorEmail, "Author");
         validateNotBlank(body, "Body");
 
-        RecommendationLetter recommendationLetter = new RecommendationLetter();
+        RecommendationLetterEntity recommendationLetter = new RecommendationLetterEntity();
         recommendationLetter.setAuthorEmail(authorEmail);
         recommendationLetter.setBody(body);
         recommendationLetter.setId(UUID.randomUUID().toString());
