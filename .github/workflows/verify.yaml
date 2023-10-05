@@ -16,4 +16,4 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - run: mvn verify
+      - run: mvn clean verify
