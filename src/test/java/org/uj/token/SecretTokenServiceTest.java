@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.uj.BaseJpaTest;
 import org.uj.email.EmailService;
-import org.uj.email.VerificationLinkEmailRequest;
+import org.uj.email.VerificationLinkEmailRequestDTO;
 import org.uj.exceptions.UserInputException;
 import org.uj.letter.RecommendationLetterEntity;
 import org.uj.letter.RecommendationLetterJpaRepository;
@@ -105,7 +105,7 @@ public class SecretTokenServiceTest extends BaseJpaTest {
         private String receivedId;
 
         @Override
-        public void sendLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
+        public void sendLetterVerificationLink(VerificationLinkEmailRequestDTO verificationLinkEmailRequest) {
         }
     }
 
