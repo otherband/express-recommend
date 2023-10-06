@@ -4,7 +4,8 @@
   "description": "",
   "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "npx webpack"
   },
   "directories": {
     "test": "test"
