@@ -1,2 +1,1 @@
-mvn clean install spring-boot:repackage
-docker build . -t express-recommend
+docker build . -t github.com/otherband/express-recommend
