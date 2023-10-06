@@ -10,7 +10,9 @@ COPY frontend/ .
 
 RUN npm run build
 
+
 FROM nginx:1.25.2-alpine
 
-# TODO: Set build directory location
-COPY --from=builder /build/out /usr/share/nginx/html
+COPY --from=builder /build/dist /usr/share/nginx/html
+
+COPY frontend/static/ /usr/share/nginx/html
