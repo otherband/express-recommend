@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.otherband.email.EmailService;
 import org.otherband.email.VerificationLinkEmailRequest;
-
 import java.util.UUID;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.otherband.email.simulation.SimulatedEmailsRepository.SimulatedEmail;
 
 @Component
