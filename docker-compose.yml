@@ -17,4 +17,12 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: postgres, dev
 
-# TODO: add frontend
+  frontend:
+    image: github.com/otherband/express-recommend-frontend
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
