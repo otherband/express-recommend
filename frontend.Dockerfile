@@ -13,10 +13,6 @@ RUN npm run build
 
 FROM nginx:1.25.2-alpine
 
-RUN mkdir static
+COPY --from=builder /build/dist /usr/share/nginx/html
 
-COPY --from=builder /build/dist /static
-
-COPY frontend/server/nginx.conf /etc/nginx/nginx.conf
-
-COPY frontend/static/ /static
+COPY frontend/static/ /usr/share/nginx/html
