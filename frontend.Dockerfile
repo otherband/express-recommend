@@ -15,8 +15,8 @@ FROM nginx:1.25.2-alpine
 
 RUN mkdir express-recommend
 
-COPY --from=builder /build/js-dist /express-recommend/js-dist
-
 COPY frontend/server/nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=builder /build/js-dist /express-recommend/js-dist
 
 COPY frontend/static/ /express-recommend/static
