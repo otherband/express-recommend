@@ -1,10 +1,11 @@
 const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/main.ts",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "js-dist"),
+    path: path.resolve(__dirname, "dist"),
     libraryTarget: "window",
   },
   module: {
@@ -22,4 +23,11 @@ module.exports = {
   optimization: {
     minimize: false,
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {from: "static", to: "."}
+      ]
+    })
+  ],
 };
