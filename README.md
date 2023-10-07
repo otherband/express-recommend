@@ -1,6 +1,14 @@
 # Express Recommend
 Express Recommend is a service that makes it easier for students and institutions to share and verify recommendation letters
-
+## Development
+To transcompile the Typescript and bundle all web assets run
+```bash
+cd frontend && npm run build
+```
+To run the frontend development server
+```bash
+cd frontend && npm run live-server
+```
 
 ## Build
 To build docker images for the backend service:
