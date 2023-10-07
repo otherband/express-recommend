@@ -13,7 +13,7 @@ import static org.mockito.Mockito.verify;
 
 class SMTPEmailServiceTest  {
     private static final String EXPECTED_ID = "LETTER_ID";
-    public static final String EXPECTED_EMAIL = "email@email.com";
+    public static final String EXPECTED_RECEIVER_EMAIL = "email@email.com";
     public static final String TOKEN_ID = "TOKEN_ID";
     public static final String SECRET = "SECRET";
     private SMTPEmailService service;
@@ -33,7 +33,7 @@ class SMTPEmailServiceTest  {
         ArgumentCaptor<SimpleMailMessage> argumentCaptor = ArgumentCaptor.forClass(SimpleMailMessage.class);
         verify(mailSender).send(argumentCaptor.capture());
         SimpleMailMessage sentMessage = argumentCaptor.getValue();
-        assertArrayEquals(new String[]{EXPECTED_EMAIL}, sentMessage.getTo());
+        assertArrayEquals(new String[]{EXPECTED_RECEIVER_EMAIL}, sentMessage.getTo());
         assertEquals("Recommendation letter verification link", sentMessage.getSubject());
         assertTrue(sentMessage.getText().contains("/api/v1/recommendation-letter/verify/LETTER_ID/TOKEN_ID/SECRET"));
     }
@@ -43,7 +43,7 @@ class SMTPEmailServiceTest  {
         request.setLetterId(EXPECTED_ID);
         request.setTokenId(TOKEN_ID);
         request.setSecretToken(SECRET);
-        request.setReceiverEmail(EXPECTED_EMAIL);
+        request.setReceiverEmail(EXPECTED_RECEIVER_EMAIL);
         return request;
     }
 }
