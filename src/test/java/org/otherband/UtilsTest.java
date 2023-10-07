@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.otherband.exceptions.UserInputException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.otherband.TestUtils.assertThrowsWithMessage;
+import static org.otherband.TestingUtils.assertThrowsWithMessage;
 
 class UtilsTest {
 	@Test

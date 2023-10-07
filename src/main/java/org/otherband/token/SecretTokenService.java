@@ -1,14 +1,13 @@
 package org.otherband.token;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.otherband.email.EmailService;
 import org.otherband.email.VerificationLinkEmailRequest;
 import org.otherband.exceptions.UserInputException;
 import org.otherband.letter.RecommendationLetterRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import static org.otherband.Utils.validateNotBlank;
@@ -30,11 +29,9 @@ public class SecretTokenService {
 
     public void verify(String tokenId, String letterId, String rawSecret) {
         validate(tokenId, letterId, rawSecret);
-        getByLetterId(letterId)
-                .stream()
-                .filter(secretToken -> secretToken.getTokenId().equals(tokenId))
-                .findAny()
-                .filter(requestedToken -> passwordEncoder.matches(rawSecret, requestedToken.getHashedSecret()))
+        tokenRepository.getByTokenId(tokenId)
+                .filter(tokenEntity -> tokenEntity.getLetterId().equals(letterId))
+                .filter(tokenEntity -> passwordEncoder.matches(rawSecret, tokenEntity.getHashedSecret()))
                 .orElseThrow(() -> UserInputException.formatted("No matching secrets found for letter with ID [%s]", letterId));
     }
 
@@ -64,13 +61,6 @@ public class SecretTokenService {
         verificationLinkEmailRequest.setTokenId(tokenId);
         verificationLinkEmailRequest.setLetterId(letterId);
         emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
-    }
-
-    private List<TokenEntity> getByLetterId(String letterId) {
-        List<TokenEntity> associatedTokens = tokenRepository.getByLetterId(letterId);
-        if (associatedTokens.isEmpty())
-            throw UserInputException.formatted("No associated tokens found for letter with ID [%s]", letterId);
-        return associatedTokens;
     }
 
     private static void validate(String tokenId, String letterId, String rawSecret) {

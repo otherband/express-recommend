@@ -9,7 +9,7 @@ import org.otherband.token.TokenRepository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.otherband.TestUtils.assertThrowsWithMessage;
+import static org.otherband.TestingUtils.assertThrowsWithMessage;
 
 public class RecommendationLetterServiceTest extends BaseApplicationTest {
     @Autowired

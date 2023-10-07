@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.otherband.TestUtils.assertThrowsWithMessage;
+import static org.otherband.TestingUtils.assertThrowsWithMessage;
 
 public class SecretTokenServiceTest extends BaseApplicationTest {
     @Autowired
@@ -69,7 +69,7 @@ public class SecretTokenServiceTest extends BaseApplicationTest {
                         INVALID_LETTER_ID,
                         emailService.lastRequest.getSecretToken()
                 ),
-                "No associated tokens found for letter with ID [INVALID_LETTER_ID]");
+                "No matching secrets found for letter with ID [INVALID_LETTER_ID]");
     }
 
     @Test
