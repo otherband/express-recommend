@@ -1,11 +1,10 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/main.ts",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "js-dist"),
     libraryTarget: "window",
   },
   module: {
@@ -23,9 +22,4 @@ module.exports = {
   optimization: {
     minimize: false,
   },
-  plugins: [
-//    new HtmlWebpackPlugin({
-//      template: "../static/web-target/decode.html",
-//    }),
-  ],
 };
