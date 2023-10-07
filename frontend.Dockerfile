@@ -13,10 +13,10 @@ RUN npm run build
 
 FROM nginx:1.25.2-alpine
 
-RUN mkdir content
+RUN mkdir express-recommend
 
-COPY --from=builder /build/js-dist /content/js-dist
+COPY --from=builder /build/js-dist /express-recommend/js-dist
 
 COPY frontend/server/nginx.conf /etc/nginx/nginx.conf
 
-COPY frontend/static/ /content/static
+COPY frontend/static/ /express-recommend/static
