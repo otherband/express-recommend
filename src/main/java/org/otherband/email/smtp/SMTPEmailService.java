@@ -9,7 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-@Profile("production")
+@Profile("prod")
 @Service
 public class SMTPEmailService implements EmailService {
     private final String mailUserName;
