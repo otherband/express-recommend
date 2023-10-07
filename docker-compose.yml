@@ -1,16 +1,28 @@
 services:
-  database:
+  postgres:
     image: postgres
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: testdb
-  application:
-    image: express-recommend
-    network_mode: host
+  backend:
+    image: github.com/otherband/express-recommend
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    ports:
+      - 8085:8085
     depends_on:
-      - database
+      - postgres
     environment:
       SPRING_PROFILES_ACTIVE: postgres, dev
+
+  frontend:
+    image: github.com/otherband/express-recommend-frontend
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
