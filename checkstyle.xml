@@ -12,7 +12,20 @@
         <property name="max" value="1000"/>
     </module>
 
+    <module name="Header">
+        <property name="headerFile" value="LICENSE"/>
+        <property name="fileExtensions" value="java"/>
+    </module>
+
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
     <module name="TreeWalker">
+        <module name="LeftCurly"/>
+        <module name="RightCurly"/>
+        <module name="Indentation"/>
+        <module name="IllegalCatch"/>
         <module name="ConstantName"/>
         <module name="AtclauseOrder"/>
         <module name="UnusedImports"/>
@@ -21,12 +34,23 @@
         <module name="CovariantEquals"/>
         <module name="AvoidStarImport"/>
         <module name="AvoidNestedBlocks"/>
+        <module name="GenericWhitespace"/>
         <module name="ArrayTrailingComma"/>
         <module name="EmptyForIteratorPad"/>
         <module name="CommentsIndentation"/>
+        <module name="IllegalInstantiation"/>
         <module name="EmptyForInitializerPad"/>
+        <module name="InvalidJavadocPosition"/>
+        <module name="HideUtilityClassConstructor"/>
+        <module name="JavadocContentLocationCheck"/>
+        <module name="JavadocMissingLeadingAsterisk"/>
         <module name="AvoidEscapedUnicodeCharacters"/>
         <module name="AvoidNoArgumentSuperConstructorCall"/>
+        <module name="JavadocMissingWhitespaceAfterAsterisk"/>
+
+        <module name="LambdaBodyLength">
+            <property name="max" value="5"/>
+        </module>
 
         <module name="AnonInnerLength">
             <property name="max" value="60"/>
