@@ -1,7 +1,7 @@
 package org.otherband.letter;
 
-import org.springframework.stereotype.Repository;
 import org.otherband.exceptions.UserInputException;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +13,11 @@ public class RecommendationLetterRepositoryImpl implements RecommendationLetterR
 
     public RecommendationLetterRepositoryImpl(RecommendationLetterJpaRepository recommendationLetterJpaRepository) {
         this.recommendationLetterJpaRepository = recommendationLetterJpaRepository;
+    }
+
+    private static UserInputException letterToUpdateDoesNotExist(RecommendationLetterEntity updatedLetter) {
+        return new UserInputException(String.format("Cannot update letter with ID [%s] because it does not exist",
+                updatedLetter.getId()));
     }
 
     @Override
@@ -36,10 +41,5 @@ public class RecommendationLetterRepositoryImpl implements RecommendationLetterR
     @Override
     public List<RecommendationLetterEntity> getAll() {
         return recommendationLetterJpaRepository.findAll();
-    }
-
-    private static UserInputException letterToUpdateDoesNotExist(RecommendationLetterEntity updatedLetter) {
-        return new UserInputException(String.format("Cannot update letter with ID [%s] because it does not exist",
-                updatedLetter.getId()));
     }
 }

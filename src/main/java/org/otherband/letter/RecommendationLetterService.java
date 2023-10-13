@@ -1,7 +1,7 @@
 package org.otherband.letter;
 
-import org.springframework.stereotype.Service;
 import org.otherband.token.SecretTokenService;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
