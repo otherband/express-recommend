@@ -27,6 +27,7 @@
         <module name="ParenPad"/>
         <module name="UpperEll"/>
         <module name="LeftCurly"/>
+        <module name="EmptyBlock"/>
         <module name="NeedBraces"/>
         <module name="RightCurly"/>
         <module name="NoLineWrap"/>
@@ -110,10 +111,6 @@
 
         <module name="CatchParameterName">
             <property name="format" value="^([a-z][a-zA-Z0-9]+Exception)|exception$"/>
-        </module>
-
-        <module name="TreeWalker">
-            <module name="EmptyBlock"/>
         </module>
 
         <module name="EmptyCatchBlock">
