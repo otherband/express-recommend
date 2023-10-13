@@ -4,6 +4,8 @@
         "https://checkstyle.org/dtds/configuration_1_3.dtd">
 <!-- List of all checks: https://checkstyle.sourceforge.io/checks.html -->
 <module name="Checker">
+    <module name="NewlineAtEndOfFile"/>
+
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
@@ -60,7 +62,6 @@
         <module name="NoWhitespaceAfter"/>
         <module name="ArrayTrailingComma"/>
         <module name="NoWhitespaceBefore"/>
-        <module name="NewlineAtEndOfFile"/>
         <module name="EmptyForIteratorPad"/>
         <module name="CommentsIndentation"/>
         <module name="UnusedLocalVariable"/>
