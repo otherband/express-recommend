@@ -19,6 +19,11 @@ public class EmailServiceSimulator implements EmailService {
         this.emailsRepository = emailsRepository;
     }
 
+    @Override
+    public void sendLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
+        emailsRepository.save(buildEmail(verificationLinkEmailRequest));
+    }
+
     private static SimulatedEmail buildEmail(VerificationLinkEmailRequest verificationLinkEmailRequest) {
         SimulatedEmail simulatedEmail = new SimulatedEmail();
         simulatedEmail.setId(UUID.randomUUID().toString());
@@ -27,11 +32,6 @@ public class EmailServiceSimulator implements EmailService {
         simulatedEmail.setEmailBody(Utils.buildLetterVerificationLink(verificationLinkEmailRequest));
         simulatedEmail.setReceiverAddress(verificationLinkEmailRequest.getReceiverEmail());
         return simulatedEmail;
-    }
-
-    @Override
-    public void sendLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
-        emailsRepository.save(buildEmail(verificationLinkEmailRequest));
     }
 
 }

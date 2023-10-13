@@ -15,11 +15,6 @@ public class RecommendationLetterRepositoryImpl implements RecommendationLetterR
         this.recommendationLetterJpaRepository = recommendationLetterJpaRepository;
     }
 
-    private static UserInputException letterToUpdateDoesNotExist(RecommendationLetterEntity updatedLetter) {
-        return new UserInputException(String.format("Cannot update letter with ID [%s] because it does not exist",
-                updatedLetter.getId()));
-    }
-
     @Override
     public RecommendationLetterEntity save(RecommendationLetterEntity recommendationLetter) {
         return recommendationLetterJpaRepository.save(recommendationLetter);
@@ -41,5 +36,10 @@ public class RecommendationLetterRepositoryImpl implements RecommendationLetterR
     @Override
     public List<RecommendationLetterEntity> getAll() {
         return recommendationLetterJpaRepository.findAll();
+    }
+
+    private static UserInputException letterToUpdateDoesNotExist(RecommendationLetterEntity updatedLetter) {
+        return new UserInputException(String.format("Cannot update letter with ID [%s] because it does not exist",
+                updatedLetter.getId()));
     }
 }

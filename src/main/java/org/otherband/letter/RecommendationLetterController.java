@@ -31,11 +31,6 @@ public class RecommendationLetterController {
         this.letterRepository = letterRepository;
     }
 
-    private static UserInputException letterDoesNotExist(String letterId) {
-        return new UserInputException(String.format("Recommendation letter with ID [%s] does not exist",
-                letterId));
-    }
-
     @GetMapping
     List<RecommendationLetterEntity> getAll() {
         return letterRepository.getAll();
@@ -56,6 +51,11 @@ public class RecommendationLetterController {
     @ResponseStatus(HttpStatus.CREATED)
     RecommendationLetterEntity create(@RequestBody @Valid RecommendationLetterRequest request) {
         return letterService.create(request.authorEmail, request.body);
+    }
+
+    private static UserInputException letterDoesNotExist(String letterId) {
+        return new UserInputException(String.format("Recommendation letter with ID [%s] does not exist",
+                letterId));
     }
 
     @Data

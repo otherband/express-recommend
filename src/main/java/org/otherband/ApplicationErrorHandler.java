@@ -12,11 +12,6 @@ import static org.springframework.http.ResponseEntity.internalServerError;
 @ControllerAdvice
 @Slf4j
 public class ApplicationErrorHandler {
-    private static ResponseEntity<String> handleError(String logMessage, Throwable throwable, ResponseEntity.BodyBuilder bodyBuilder) {
-        log.error(logMessage, throwable);
-        return bodyBuilder.body(throwable.getMessage());
-    }
-
     @ExceptionHandler(UserInputException.class)
     ResponseEntity<?> handleUserError(UserInputException exception) {
         return handleError("User error", exception, badRequest());
@@ -27,4 +22,8 @@ public class ApplicationErrorHandler {
         return handleError("Something went wrong", throwable, internalServerError());
     }
 
+    private static ResponseEntity<String> handleError(String logMessage, Throwable throwable, ResponseEntity.BodyBuilder bodyBuilder) {
+        log.error(logMessage, throwable);
+        return bodyBuilder.body(throwable.getMessage());
+    }
 }
