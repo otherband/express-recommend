@@ -35,25 +35,6 @@ public class SecretTokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    private static void validate(String receiverEmail, String letterId) {
-        validateNotBlank(receiverEmail, EMAIL);
-        validateNotBlank(letterId, LETTER_ID);
-    }
-
-    private static void validate(String tokenId, String letterId, String rawSecret) {
-        validateNotBlank(tokenId, TOKEN_ID);
-        validateNotBlank(letterId, LETTER_ID);
-        validateNotBlank(rawSecret, SECRET);
-    }
-
-    private static UserInputException letterDoesNotExist(String letterId) {
-        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
-    }
-
-    private static String randomString() {
-        return UUID.randomUUID().toString();
-    }
-
     public void verify(String tokenId, String letterId, String rawSecret) {
         validate(tokenId, letterId, rawSecret);
         getByLetterId(letterId)
@@ -98,5 +79,24 @@ public class SecretTokenService {
         String secret = randomString().concat(randomString());
         sendEmail(receiverEmail, secret, secretToken.getTokenId(), secretToken.getLetterId());
         secretToken.setHashedSecret(passwordEncoder.encode(secret));
+    }
+
+    private static void validate(String receiverEmail, String letterId) {
+        validateNotBlank(receiverEmail, EMAIL);
+        validateNotBlank(letterId, LETTER_ID);
+    }
+
+    private static void validate(String tokenId, String letterId, String rawSecret) {
+        validateNotBlank(tokenId, TOKEN_ID);
+        validateNotBlank(letterId, LETTER_ID);
+        validateNotBlank(rawSecret, SECRET);
+    }
+
+    private static UserInputException letterDoesNotExist(String letterId) {
+        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
+    }
+
+    private static String randomString() {
+        return UUID.randomUUID().toString();
     }
 }

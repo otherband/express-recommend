@@ -12,8 +12,10 @@ public class Utils {
 
     private Utils() {
     }
+
     public static void validateNotBlank(String field, String fieldName) {
-        if (isBlank(field)) throw UserInputException.formatted("[%s] cannot be blank", fieldName);
+        if (isBlank(field))
+            throw UserInputException.formatted("[%s] cannot be blank", fieldName);
     }
 
     public static String buildLetterVerificationLink(VerificationLinkEmailRequest verificationLinkEmailRequest) {
