@@ -1,5 +1,8 @@
 package org.otherband.token;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +22,15 @@ public class SecretTokenController {
 
     @PostMapping("/create-token")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createToken(@RequestBody TokenRequest tokenRequest) {
+    public void createToken(@RequestBody @Valid TokenRequest tokenRequest) {
         tokenService.create(tokenRequest.receiverEmail, tokenRequest.letterId);
     }
 
     @Data
-    public static class VerificationRequest {
-        private String letterId;
-        private String tokenId;
-        private String secretToken;
-    }
-
-    @Data
     public static class TokenRequest {
+        @NotBlank
         private String letterId;
+        @Email
         private String receiverEmail;
     }
 }

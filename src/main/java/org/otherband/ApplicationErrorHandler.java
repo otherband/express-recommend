@@ -17,7 +17,7 @@ import static org.springframework.http.ResponseEntity.internalServerError;
 public class ApplicationErrorHandler {
     @ExceptionHandler(UserInputException.class)
     ResponseEntity<?> handleUserError(UserInputException exception) {
-        return handleError("User error", exception, badRequest());
+        return handleError(exception.getMessage(), exception, badRequest());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
