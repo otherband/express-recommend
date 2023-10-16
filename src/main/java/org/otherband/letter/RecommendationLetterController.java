@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.otherband.exceptions.UserInputException;
 
@@ -42,15 +43,15 @@ public class RecommendationLetterController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationLetterEntity  create(@RequestBody @Valid RecommendationLetterRequest request) {
+    RecommendationLetterEntity  create(@RequestBody @Validated RecommendationLetterRequest request) {
         return letterService.create(request.authorEmail, request.body);
     }
 
     @Data
     public static class RecommendationLetterRequest {
-        @Email
+        @Email(message = "Invalid email")
         private String authorEmail;
-        @NotBlank
+        @NotBlank(message = "Letter body cannot be empty")
         private String body;
     }
 
