@@ -1,13 +1,12 @@
 package org.otherband.letter;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.otherband.exceptions.UserInputException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.otherband.exceptions.UserInputException;
 
 import java.util.List;
 
