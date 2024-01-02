@@ -30,12 +30,12 @@ public class RecommendationLetterController {
     }
 
     @GetMapping("/verify/{letterId}/{tokenId}/{secret}")
-    public RecommendationLetterEntity  verify(@PathVariable String letterId, @PathVariable String tokenId, @PathVariable String secret) {
+    public RecommendationLetterEntity  verify(@PathVariable("letterId") String letterId, @PathVariable("tokenId") String tokenId, @PathVariable("secret") String secret) {
         return letterService.verify(tokenId, letterId, secret);
     }
 
     @GetMapping("/{letterId}")
-    RecommendationLetterEntity  get(@PathVariable String letterId) {
+    RecommendationLetterEntity  get(@PathVariable("letterId") String letterId) {
         return letterRepository.get(letterId)
                 .orElseThrow(() -> letterDoesNotExist(letterId));
     }
