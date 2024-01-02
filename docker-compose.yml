@@ -16,6 +16,8 @@ services:
       - postgres
     environment:
       SPRING_PROFILES_ACTIVE: postgres, dev
+    volumes:
+      - ./application.properties:/app/application.properties
 
   frontend:
     image: github.com/otherband/express-recommend-frontend
