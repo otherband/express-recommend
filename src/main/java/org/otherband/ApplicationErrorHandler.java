@@ -1,10 +1,10 @@
 package org.otherband;
 
 import lombok.extern.slf4j.Slf4j;
+import org.otherband.exceptions.UserInputException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.otherband.exceptions.UserInputException;
 
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.internalServerError;
@@ -26,5 +26,4 @@ public class ApplicationErrorHandler {
         log.error(logMessage, throwable);
         return bodyBuilder.body(throwable.getMessage());
     }
-
 }

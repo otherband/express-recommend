@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 import static org.otherband.email.simulation.SimulatedEmailsRepository.SimulatedEmail;
+
 @Profile("dev")
 public interface SimulatedEmailsRepository extends JpaRepository<SimulatedEmail, String> {
 
