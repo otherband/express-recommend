@@ -21,7 +21,7 @@ public class EmailSimulationController {
     }
 
     @GetMapping("/{receiverAddress}")
-    public List<SimulatedEmail> getByAddress(@PathVariable String receiverAddress) {
+    public List<SimulatedEmail> getByAddress(@PathVariable("receiverAddress") String receiverAddress) {
         return repository.findByReceiverAddress(receiverAddress);
     }
 }
