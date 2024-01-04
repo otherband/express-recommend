@@ -1,7 +1,7 @@
 package org.otherband.letter;
 
-import org.springframework.stereotype.Repository;
 import org.otherband.exceptions.UserInputException;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

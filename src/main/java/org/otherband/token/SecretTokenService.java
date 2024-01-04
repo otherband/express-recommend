@@ -1,11 +1,11 @@
 package org.otherband.token;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.otherband.email.EmailService;
 import org.otherband.email.VerificationLinkEmailRequest;
 import org.otherband.exceptions.UserInputException;
 import org.otherband.letter.RecommendationLetterRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,12 +16,19 @@ import static org.otherband.Utils.validateNotBlank;
 @Service
 public class SecretTokenService {
 
+    private static final String LETTER_ID = "Letter ID";
+    private static final String EMAIL = "Email";
+    private static final String TOKEN_ID = "Token ID";
+    private static final String SECRET = "Secret";
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final TokenRepository tokenRepository;
     private final RecommendationLetterRepository letterRepository;
 
-    public SecretTokenService(EmailService emailService, TokenRepository tokenRepository, RecommendationLetterRepository letterRepository, PasswordEncoder passwordEncoder) {
+    public SecretTokenService(EmailService emailService,
+                              TokenRepository tokenRepository,
+                              RecommendationLetterRepository letterRepository,
+                              PasswordEncoder passwordEncoder) {
         this.letterRepository = letterRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
@@ -51,11 +58,6 @@ public class SecretTokenService {
         return secretToken;
     }
 
-    private static void validate(String receiverEmail, String letterId) {
-        validateNotBlank(receiverEmail, "Email");
-        validateNotBlank(letterId, "Letter ID");
-    }
-
     protected void sendEmail(String receiverEmail, String secret, String tokenId, String letterId) {
         // provides a hook for testing
         VerificationLinkEmailRequest verificationLinkEmailRequest = new VerificationLinkEmailRequest();
@@ -73,20 +75,25 @@ public class SecretTokenService {
         return associatedTokens;
     }
 
-    private static void validate(String tokenId, String letterId, String rawSecret) {
-        validateNotBlank(tokenId, "Token ID");
-        validateNotBlank(letterId, "Letter ID");
-        validateNotBlank(rawSecret, "Secret");
-    }
-
-    private static UserInputException letterDoesNotExist(String letterId) {
-        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
-    }
-
     private void handleSecret(String receiverEmail, TokenEntity secretToken) {
         String secret = randomString().concat(randomString());
         sendEmail(receiverEmail, secret, secretToken.getTokenId(), secretToken.getLetterId());
         secretToken.setHashedSecret(passwordEncoder.encode(secret));
+    }
+
+    private static void validate(String receiverEmail, String letterId) {
+        validateNotBlank(receiverEmail, EMAIL);
+        validateNotBlank(letterId, LETTER_ID);
+    }
+
+    private static void validate(String tokenId, String letterId, String rawSecret) {
+        validateNotBlank(tokenId, TOKEN_ID);
+        validateNotBlank(letterId, LETTER_ID);
+        validateNotBlank(rawSecret, SECRET);
+    }
+
+    private static UserInputException letterDoesNotExist(String letterId) {
+        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
     }
 
     private static String randomString() {
