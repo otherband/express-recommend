@@ -21,6 +21,9 @@ jobs:
   verify_frontend:
     name: Verify Frontend
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
       - name: "Node set-up"
@@ -28,6 +31,6 @@ jobs:
         with:
           node-version: '18.x'
       - name: Install dependencies
-        run: cd frontend && npm install
+        run: npm install
       - name: Build
-        run: cd frontend && npm run build -- --mode=production
+        run: npm run build -- --mode=production
