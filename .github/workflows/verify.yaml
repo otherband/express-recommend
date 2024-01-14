@@ -6,15 +6,14 @@ on:
   push:
     branches:
       - 'main'
-      - 'enhancement'
 jobs:
-  verify_backend:
-    name: Verify Backend
+  verify_code:
+    name: Verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: "JDK set-up"
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -22,13 +21,16 @@ jobs:
   verify_frontend:
     name: Verify Frontend
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
       - name: "Node set-up"
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Install dependencies
-        run: cd frontend && npm install
+        run: npm install
       - name: Build
-        run: cd frontend && npm run build -- --mode=production
+        run: npm run build -- --mode=production

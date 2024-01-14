@@ -39,5 +39,4 @@ public class ApplicationErrorHandler {
         return String.format("Invalid value for field [%s]. Value: [%s]. Reason: [%s]",
                 fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
     }
-
 }

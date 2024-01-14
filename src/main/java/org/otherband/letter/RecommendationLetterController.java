@@ -5,8 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.otherband.exceptions.UserInputException;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -25,24 +31,26 @@ public class RecommendationLetterController {
     }
 
     @GetMapping
-    List<RecommendationLetterEntity > getAll() {
+    List<RecommendationLetterEntity> getAll() {
         return letterRepository.getAll();
     }
 
     @GetMapping("/verify/{letterId}/{tokenId}/{secret}")
-    public RecommendationLetterEntity  verify(@PathVariable("letterId") String letterId, @PathVariable("tokenId") String tokenId, @PathVariable("secret") String secret) {
+    public RecommendationLetterEntity verify(@PathVariable("letterId") String letterId,
+                                             @PathVariable("tokenId") String tokenId,
+                                             @PathVariable("secret") String secret) {
         return letterService.verify(tokenId, letterId, secret);
     }
 
     @GetMapping("/{letterId}")
-    RecommendationLetterEntity  get(@PathVariable("letterId") String letterId) {
+    RecommendationLetterEntity get(@PathVariable("letterId") String letterId) {
         return letterRepository.get(letterId)
                 .orElseThrow(() -> letterDoesNotExist(letterId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    RecommendationLetterEntity  create(@RequestBody @Validated RecommendationLetterRequest request) {
+    RecommendationLetterEntity create(@RequestBody @Valid RecommendationLetterRequest request) {
         return letterService.create(request.authorEmail, request.body);
     }
 
