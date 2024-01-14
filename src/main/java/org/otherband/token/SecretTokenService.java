@@ -65,17 +65,10 @@ public class SecretTokenService {
         emailService.sendLetterVerificationLink(verificationLinkEmailRequest);
     }
 
-    private List<TokenEntity> getByLetterId(String letterId) {
-        List<TokenEntity> associatedTokens = tokenRepository.getByLetterId(letterId);
-        if (associatedTokens.isEmpty())
-            throw UserInputException.formatted("No associated tokens found for letter with ID [%s]", letterId);
-        return associatedTokens;
-    }
-
     private static void validate(String tokenId, String letterId, String rawSecret) {
-        validateNotBlank(tokenId, "Token ID");
-        validateNotBlank(letterId, "Letter ID");
-        validateNotBlank(rawSecret, "Secret");
+        validateNotBlank(tokenId, TOKEN_ID);
+        validateNotBlank(letterId, LETTER_ID);
+        validateNotBlank(rawSecret, SECRET);
     }
 
     private static UserInputException letterDoesNotExist(String letterId) {
@@ -91,16 +84,6 @@ public class SecretTokenService {
     private static void validate(String receiverEmail, String letterId) {
         validateNotBlank(receiverEmail, EMAIL);
         validateNotBlank(letterId, LETTER_ID);
-    }
-
-    private static void validate(String tokenId, String letterId, String rawSecret) {
-        validateNotBlank(tokenId, TOKEN_ID);
-        validateNotBlank(letterId, LETTER_ID);
-        validateNotBlank(rawSecret, SECRET);
-    }
-
-    private static UserInputException letterDoesNotExist(String letterId) {
-        return UserInputException.formatted("Letter with ID [%s] does not exist", letterId);
     }
 
     private static String randomString() {
