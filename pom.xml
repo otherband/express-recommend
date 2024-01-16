@@ -18,6 +18,9 @@
 
         <!-- Brand Related -->
         <group.id>otherband</group.id>
+
+        <!-- Versions -->
+        <org.openapitools.version>7.2.0</org.openapitools.version>
     </properties>
 
     <dependencies>
@@ -240,6 +243,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
