@@ -1,0 +1,120 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Express Recommend'
+  license:
+    name: 'MIT'
+    url: 'https://opensource.org/license/mit/'
+paths:
+  /api/v1/recommendation-letter:
+    get:
+      summary: Get all recommendation letters
+      operationId: getAllLetters
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecommendationLetterEntity'
+              example:
+                - letterId: '1'
+                  authorEmail: 'example@email.com'
+                  body: 'This is a recommendation letter.'
+    post:
+      summary: Create a new recommendation letter
+      operationId: createLetter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendationLetterRequest'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                letterId: '1'
+                authorEmail: 'example@email.com'
+                body: 'This is a recommendation letter.'
+  /api/v1/recommendation-letter/verify/{letterId}/{tokenId}/{secret}:
+    get:
+      summary: Verify a recommendation letter
+      operationId: verifyLetter
+      parameters:
+        - name: letterId
+          in: path
+          description: ID of the recommendation letter
+          required: true
+          schema:
+            type: string
+        - name: tokenId
+          in: path
+          description: Token ID
+          required: true
+          schema:
+            type: string
+        - name: secret
+          in: path
+          description: Secret
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                letterId: '1'
+                authorEmail: 'example@email.com'
+                body: 'This is a recommendation letter.'
+  /api/v1/recommendation-letter/{letterId}:
+    get:
+      summary: Get a specific recommendation letter
+      operationId: getLetter
+      parameters:
+        - name: letterId
+          in: path
+          description: ID of the recommendation letter
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                letterId: '1'
+                authorEmail: 'example@email.com'
+                body: 'This is a recommendation letter.'
+components:
+  schemas:
+    RecommendationLetterRequest:
+      type: object
+      required:
+        - authorEmail
+        - body
+      properties:
+        authorEmail:
+          type: string
+          format: email
+        body:
+          type: string
+          minLength: 1
+    RecommendationLetterEntity:
+      type: object
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        authorEmail:
+          type: string
+        validated:
+          type: boolean
